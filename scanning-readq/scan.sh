@@ -1,4 +1,10 @@
 OCI_CLI_AUTH=instance_principal
+
+/root/bin/oci -v
+uvscan --version
+
+exit
+
 rm -f report.txt
 rm -rf scandir
 mkdir scandir
