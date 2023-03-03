@@ -60,12 +60,6 @@ async function readQ() {
         if(getRes.getMessages.messages.length)
         {
             getRes.getMessages.messages.forEach(function(msg) {
-                //console.log(msg.content);
-                var delReq = {
-                  queueId: queueId,
-                  messageReceipt: msg.receipt
-                };
-                qClient.deleteMessage(delReq);
                 // PROCESS the file here
                 //console.log("Scanning " + msg.content);
                 exec("./scan.sh " + msg.content, (error, stdout, stderr) => {
@@ -76,6 +70,12 @@ async function readQ() {
                     } else {
                         //console.log(`stdout: ${stdout}`);
                         console.log("scan completed " + msg.content);
+                        //console.log(msg.content);
+                        var delReq = {
+                          queueId: queueId,
+                          messageReceipt: msg.receipt
+                        };
+                        qClient.deleteMessage(delReq);
                     }
                     inExecution = false;
                 });
