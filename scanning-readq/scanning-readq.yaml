@@ -2,7 +2,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: scanning-readq
-  namespace: scanning
 spec:
   replicas: 1
   selector:
@@ -11,14 +10,13 @@ spec:
       name: scanning-readq
   template:
     metadata:
-      namespace: scanning
       labels:
         app: scanning-readq
         name: scanning-readq
     spec:
       containers:
         - name: scanning-readq
-          image: ams.ocir.io/frsxwtjslf35/scanning-readq:1.5
+          image: ams.ocir.io/frsxwtjslf35/scanning-readq:1.6
           imagePullPolicy: Always
       imagePullSecrets:
       - name: amsocirsecret

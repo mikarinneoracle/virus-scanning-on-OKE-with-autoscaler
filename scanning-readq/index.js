@@ -44,7 +44,7 @@ async function getStats() {
 async function readQ() {
     if(inExecution)
     {
-        console.log("ReadQ in execution .. passing cycle ..")
+        console.log("ReadQ scanning in execution .. passing cycle ..")
         return;
     }
     inExecution = true;
@@ -67,7 +67,8 @@ async function readQ() {
                 };
                 qClient.deleteMessage(delReq);
                 // PROCESS the file here
-                exec("uvscan --version", (error, stdout, stderr) => {
+                console.log("Scanning " + msg.content);
+                exec("./scan.sh " + msg.content, (error, stdout, stderr) => {
                     if (error) {
                         console.log(`error: ${error.message}`);
                         return;
@@ -77,14 +78,14 @@ async function readQ() {
                         return;
                     }
                     console.log(`stdout: ${stdout}`);
+                    console.log("scan completed");
+                    inExecution = false;
                 });
             });
         }
     } catch (error) {
         console.log("ReadQ error: " + error);
     } finally {
-        console.log("ReadQ done");
-        inExecution = false;
     }
 }
 
