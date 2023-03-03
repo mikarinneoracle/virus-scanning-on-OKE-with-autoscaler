@@ -16,6 +16,4 @@ RUN mv avvdat-10637.zip /usr/local/uvscan/
 
 RUN cd /usr/local/uvscan/ && unzip avvdat-10637.zip
 
-RUN uvscan --version
-
 CMD [ "node", "index.js" ]
