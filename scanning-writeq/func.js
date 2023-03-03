@@ -5,16 +5,17 @@ const queue = require("oci-queue");
 fdk.handle(async function(event) {
     
     var res = "";
+    var content = "empty";
     const queueId = 'ocid1.queue.oc1.eu-amsterdam-1.amaaaaaauevftmqa4er5filmkshxfpad2leyurhw7t7ilg4txundaly6g7ba';
     const endpoint = 'https://cell-1.queue.messaging.eu-amsterdam-1.oci.oraclecloud.com';    
-
-    if(event)
-    {
-        console.log(event.bucketName + '/' + event.additionalDetails.resourceName);
-    }
     
-    /*
-    try { 
+    try {
+        console.log(event.bucketName + '/' + event.additionalDetails.resourceName);
+        if(event.additionalDetails.resourceName)
+        {
+            content = event.additionalDetails.resourceName;
+        }
+
         const provider = await common.ResourcePrincipalAuthenticationDetailsProvider.builder();
         const qClient = new queue.QueueClient({ authenticationDetailsProvider: provider });
         qClient.endpoint = endpoint;
@@ -25,7 +26,7 @@ fdk.handle(async function(event) {
           putMessagesDetails: { messages : [ { content: content } ] }
         };
         
-        const putRes = await client.putMessages(putReq);
+        res = await client.putMessages(putReq);
         console.log(putRes);    
         
     } catch (error) {
@@ -34,7 +35,4 @@ fdk.handle(async function(event) {
     } finally {
         return res;
     }
-    */
-    
-    return "ok";
 })
