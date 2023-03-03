@@ -8,6 +8,7 @@
 	"dependencies": {
 		"@fnproject/fdk": ">=0.0.48",
         "oci-core": "^2.52.0",
+        "oci-common": "^2.52.0",
         "oci-queue": "^2.52.0"
 	}
 }

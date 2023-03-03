@@ -1,5 +1,6 @@
 const fdk = require('@fnproject/fdk');
 const core = require("oci-core");
+const common = require("oci-common");
 const queue = require("oci-queue");
 
 fdk.handle(async function(event) {
