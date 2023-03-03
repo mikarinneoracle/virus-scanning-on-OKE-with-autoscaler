@@ -1,6 +1,7 @@
 OCI_CLI_AUTH=instance_principal
 
 /root/bin/oci -v
+/root/bin/oci os ns get
 uvscan --version
 
 exit
