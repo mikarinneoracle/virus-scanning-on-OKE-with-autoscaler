@@ -12,4 +12,6 @@ RUN tar -xvf cls-l64-703-e.tar.gz
 
 RUN ./install-uvscan -y
 
+RUN mv avvdat-10637.zip /usr/local/uvscan/
+
 CMD [ "node", "index.js" ]
