@@ -67,7 +67,7 @@ async function readQ() {
                 };
                 qClient.deleteMessage(delReq);
                 // PROCESS the file here
-                exec("./uvscan --version", (error, stdout, stderr) => {
+                exec("ls -la", (error, stdout, stderr) => {
                     if (error) {
                         console.log(`error: ${error.message}`);
                         return;
