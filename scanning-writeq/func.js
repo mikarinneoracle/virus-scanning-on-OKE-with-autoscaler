@@ -11,13 +11,11 @@ fdk.handle(async function(event) {
     const endpoint = 'https://cell-1.queue.messaging.eu-amsterdam-1.oci.oraclecloud.com';    
     
     console.log(event);
-    content = JSON.stringify(event);
-    
     try {
         if(event.data && event.data.resourceName)
         {
             console.log(event.data.resourceName);
-            content = event.additionalDetails.resourceName;
+            content = event.data.resourceName;
         }
 
         const provider = await common.ResourcePrincipalAuthenticationDetailsProvider.builder();
