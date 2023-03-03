@@ -60,7 +60,7 @@ async function readQ() {
         if(getRes.getMessages.messages.length)
         {
             getRes.getMessages.messages.forEach(function(msg) {
-                console.log(msg.content);
+                //console.log(msg.content);
                 var delReq = {
                   queueId: queueId,
                   messageReceipt: msg.receipt
