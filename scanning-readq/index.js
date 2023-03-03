@@ -70,7 +70,7 @@ async function readQ() {
                     } else {
                         //console.log(`stdout: ${stdout}`);
                         console.log("scan completed " + msg.content);
-                        // Deleet from Q
+                        // Delete from Q
                         var delReq = {
                           queueId: queueId,
                           messageReceipt: msg.receipt

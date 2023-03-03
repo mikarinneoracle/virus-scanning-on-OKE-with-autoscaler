@@ -14,6 +14,6 @@ if [ $isInFile -eq 0 ]; then
 else
    echo "################# Scanning found no infected files #################"
    /root/bin/oci os object put --bucket-name scanned-ms --region eu-amsterdam-1 --file report.$1.txt --force --auth instance_principal
-   /root/bin/oci os object put --bucket-name scanned-ms --region eu-amsterdam-1 --file scandir/$1 --force --auth instance_principal
+   #/root/bin/oci os object put --bucket-name scanned-ms --region eu-amsterdam-1 --file scandir/$1 --force --auth instance_principal
 fi
 /root/bin/oci os object delete --bucket-name scanning-ms --object-name $1 --region eu-amsterdam-1 --force --auth instance_principal
