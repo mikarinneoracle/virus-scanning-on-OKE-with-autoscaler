@@ -35,7 +35,7 @@ async function getStats() {
             console.log(error);
         });
         console.log(statsRes);
-        return statsRes.queueStats.queue.visibleMessages;
+        return statsRes; // .queueStats.queue.visibleMessages;
     } catch (error) {
         console.log("Error: " + error);
     }
