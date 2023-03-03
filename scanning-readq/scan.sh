@@ -5,7 +5,7 @@ rm -f report.txt
 rm -rf scandir
 mkdir scandir
 echo "Scanning $1"
-/root/bin/oci os get --bucket-name scanning-ms --name $1 --region eu-amsterdam-1 --file scandir/$1 --auth instance_principal
+/root/bin/oci os object get --bucket-name scanning-ms --name $1 --region eu-amsterdam-1 --file scandir/$1 --auth instance_principal
 uvscan -v --unzip --analyze --summary --afc 512 --program --mime --recursive --threads=$(nproc) --report=report.txt --rptall --rptcor --rpterr --rptobjects scandir
 isInFile=$(cat report.txt | grep -c "Possibly Infected:.............     0")
 if [ $isInFile -eq 0 ]; then
