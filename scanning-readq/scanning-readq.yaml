@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: scanning-readq
+  namespace: scanning
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: scanning-readq
+      name: scanning-readq
+  template:
+    metadata:
+      namespace: scanning
+      labels:
+        app: canning-readq
+        name: canning-readq
+    spec:
+      containers:
+        - name: canning-readq
+          image: ams.ocir.io/frsxwtjslf35/canning-readq:1.0
+          imagePullPolicy: Always
+      imagePullSecrets:
+      - name: amsocirsecret
