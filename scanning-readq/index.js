@@ -91,9 +91,8 @@ async function readQ() {
 
 async function init() {
   try {
-    provider = await new common.InstancePrincipalsAuthenticationDetailsProviderBuilder().build();
+    //provider = await new common.InstancePrincipalsAuthenticationDetailsProviderBuilder().build();
     // Use this locally:
-      /*
     const tenancy = "ocid1.tenancy.oc1..aaaaaaaa4wptnxymnypvjjltnejidchjhz6uimlhru7rdi5qb6qlnmrtgu3a";
     const user = "ocid1.user.oc1..aaaaaaaan6v5pipc5vg675p7dc6fbic3ynf2hillsgvzhsvz37vgljmrbt5a";
     const fingerprint = "ef:4d:a7:e1:bd:e5:21:16:7b:28:1d:f9:2c:46:02:23";
@@ -135,7 +134,6 @@ LQh/jgcr5mXMeWOhnioOxA==
       passphrase,
       region
     );
-    */
     qClient = new queue.QueueClient({
       authenticationDetailsProvider: provider
     });
