@@ -7,5 +7,7 @@
 	"license": "Apache-2.0",
 	"dependencies": {
 		"@fnproject/fdk": ">=0.0.48"
-	}
+	},
+    "oci-core": "^2.52.0",
+    "oci-queue": "^2.52.0"
 }
