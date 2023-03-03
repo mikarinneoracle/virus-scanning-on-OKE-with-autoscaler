@@ -27,7 +27,7 @@ fdk.handle(async function(event) {
           putMessagesDetails: { messages : [ { content: content } ] }
         };
         
-        res = await client.putMessages(putReq);
+        res = await qClient.putMessages(putReq);
         console.log(putRes);    
         
     } catch (error) {
