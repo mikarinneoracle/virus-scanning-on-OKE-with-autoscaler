@@ -1,11 +1,20 @@
 {
-	"name": "hellofn",
-    "version": "1.0.0",
-	"description": "example function",
-	"main": "func.js",
-	"author": "",
-	"license": "Apache-2.0",
-	"dependencies": {
-		"@fnproject/fdk": ">=0.0.48"
-	}
+  "name": "scanning-readq",
+  "version": "1.0.0",
+  "description": "function that reads events and stats from OCI queue",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "mika.rinne@oracle.com",
+  "license": "ISC",
+  "dependencies": {
+    "child_process": "^1.0.2",
+    "oci-common": "^2.52.0",
+    "oci-core": "^2.52.0",
+    "oci-identity": "^2.52.0",
+    "oci-objectstorage": "^2.52.0",
+    "oci-queue": "^2.52.0",
+    "express": "^4.18.1"
+  }
 }
