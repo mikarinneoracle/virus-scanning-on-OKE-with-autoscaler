@@ -1,13 +1,13 @@
 /root/bin/oci -v
 /root/bin/oci os ns get --auth instance_principal
 #uvscan --version
-rm -f report.txt
+rm -f report.$1.txt
 rm -rf scandir
 mkdir scandir
 echo "Scanning $1"
 /root/bin/oci os object get --bucket-name scanning-ms --name $1 --region eu-amsterdam-1 --file scandir/$1 --auth instance_principal
 uvscan -v --unzip --analyze --summary --afc 512 --program --mime --recursive --threads=$(nproc) --report=report.$1.txt --rptall --rptcor --rpterr --rptobjects scandir
-isInFile=$(cat report.txt | grep -c "Possibly Infected:.............     0")
+isInFile=$(cat report.$1.txt | grep -c "Possibly Infected:.............     0")
 if [ $isInFile -eq 0 ]; then
    echo "################# ALERT!!! Scanning found infected files ! #################"
    /root/bin/oci os object put --bucket-name scanning-ms-alert-report --region eu-amsterdam-1 --file report.$1.txt --force --auth instance_principal
