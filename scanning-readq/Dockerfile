@@ -18,4 +18,6 @@ RUN cd /usr/local/uvscan/ && unzip avvdat-10637.zip
 
 RUN chmod +x scan.sh
 
+RUN yum install python36-oci-cli
+
 CMD [ "node", "index.js" ]

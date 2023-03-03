@@ -1,3 +1,4 @@
+OCI_CLI_AUTH=instance_principal
 rm -f report.txt
 rm -rf scandir
 mkdir scandir
