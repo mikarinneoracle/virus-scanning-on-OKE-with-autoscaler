@@ -1,8 +1,5 @@
 const fdk = require('@fnproject/fdk');
 const core = require("oci-core");
-const identity = require("oci-identity");
-const common = require("oci-common");
-const os = require("oci-objectstorage");
 const queue = require("oci-queue");
 
 fdk.handle(async function(event) {
@@ -15,8 +12,6 @@ fdk.handle(async function(event) {
     
     /*
     try { 
-        console.log(queueId);
-        
         const provider = await common.ResourcePrincipalAuthenticationDetailsProvider.builder();
         const qClient = new queue.QueueClient({ authenticationDetailsProvider: provider });
         qClient.endpoint = endpoint;
@@ -38,5 +33,5 @@ fdk.handle(async function(event) {
     }
     */
     
-    return event;
+    return "ok";
 })
