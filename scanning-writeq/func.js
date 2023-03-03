@@ -10,7 +10,7 @@ fdk.handle(async function(event) {
     const endpoint = 'https://cell-1.queue.messaging.eu-amsterdam-1.oci.oraclecloud.com';    
     
     try {
-        if(event.additionalDetails.resourceName)
+        if(event.additionalDetails && event.additionalDetails.resourceName)
         {
             console.log(event.bucketName + '/' + event.additionalDetails.resourceName);
             content = event.additionalDetails.resourceName;
