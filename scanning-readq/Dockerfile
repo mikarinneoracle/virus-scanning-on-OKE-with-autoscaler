@@ -16,4 +16,6 @@ RUN mv avvdat-10637.zip /usr/local/uvscan/
 
 RUN cd /usr/local/uvscan/ && unzip avvdat-10637.zip
 
+RUN chmod +x scan.sh
+
 CMD [ "node", "index.js" ]
