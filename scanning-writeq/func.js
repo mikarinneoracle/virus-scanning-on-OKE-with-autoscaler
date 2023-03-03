@@ -23,7 +23,7 @@ fdk.handle(async function(event) {
         const qClient = new queue.QueueClient({ authenticationDetailsProvider: provider });
         qClient.endpoint = endpoint;
 
-        console.log("Writing event to Queue .. ");
+        console.log("Writing '" + content + "' to Queue .. ");
         const putReq = {
           queueId: queueId,
           putMessagesDetails: { messages : [ { content: content } ] }
