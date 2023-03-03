@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: scanning-readq
-          image: ams.ocir.io/frsxwtjslf35/scanning-readq:1.6
+          image: ams.ocir.io/frsxwtjslf35/scanning-readq:1.7
           imagePullPolicy: Always
       imagePullSecrets:
       - name: amsocirsecret

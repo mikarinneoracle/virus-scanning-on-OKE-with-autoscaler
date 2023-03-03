@@ -82,6 +82,8 @@ async function readQ() {
                     inExecution = false;
                 });
             });
+        } else {
+            inExecution = false;
         }
     } catch (error) {
         console.log("ReadQ error: " + error);
