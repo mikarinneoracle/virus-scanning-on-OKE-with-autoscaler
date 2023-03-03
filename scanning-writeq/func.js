@@ -10,6 +10,8 @@ fdk.handle(async function(event) {
     const queueId = 'ocid1.queue.oc1.eu-amsterdam-1.amaaaaaauevftmqa4er5filmkshxfpad2leyurhw7t7ilg4txundaly6g7ba';
     const endpoint = 'https://cell-1.queue.messaging.eu-amsterdam-1.oci.oraclecloud.com';    
     
+    console.log(event);
+    
     try {
         if(event.additionalDetails && event.additionalDetails.resourceName)
         {
