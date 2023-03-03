@@ -13,9 +13,9 @@ fdk.handle(async function(event) {
     console.log(event);
     
     try {
-        if(event.additionalDetails && event.additionalDetails.resourceName)
+        if(event.data && event.data.resourceName)
         {
-            console.log(event.bucketName + '/' + event.additionalDetails.resourceName);
+            console.log(event.data.resourceName);
             content = event.additionalDetails.resourceName;
         }
 
