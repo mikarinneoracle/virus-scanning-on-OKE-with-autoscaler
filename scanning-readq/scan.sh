@@ -5,7 +5,7 @@ rm -f report.$1.txt
 rm -rf scandir
 mkdir scandir
 echo "Scanning $1 $2"
-if ( "$2" eq "delete"); then
+if [ "$2" == "delete" ]; then
     echo "Deleting $2 only"
     /root/bin/oci os object delete --bucket-name scanning-ms --object-name $1 --region eu-amsterdam-1 --force --auth instance_principal
     exit
