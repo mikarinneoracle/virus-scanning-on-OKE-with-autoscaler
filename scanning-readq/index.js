@@ -61,12 +61,12 @@ async function readQ() {
         {
             getRes.getMessages.messages.forEach(function(msg) {
                 // PROCESS the file here
-                var delete_file_only = "";
+                var command = "scan";
                 if(msg.content.includes("/")) {
-                    delete_file_only = "delete";      
+                    command = "delete";      
                 }
-                console.log("Scanning " + msg.content + " " + delete_file_only);
-                exec("./scan.sh " + msg.content + " " + delete_file_only, (error, stdout, stderr) => {
+                console.log("Scanning " + msg.content + " " + command);
+                exec("./scan.sh " + msg.content + " " + command, (error, stdout, stderr) => {
                     if (error) {
                         console.log(`error: ${error.message}`);
                     } else if (stderr) {
