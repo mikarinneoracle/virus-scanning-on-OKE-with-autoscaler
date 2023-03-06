@@ -60,29 +60,34 @@ async function readQ() {
         if(getRes.getMessages.messages.length) // Expect to be always 1
         {
             getRes.getMessages.messages.forEach(function(msg) {
-                // PROCESS the file here
-                var command = "scan";
                 if(msg.content.includes("/")) {
-                    command = "delete";      
+                    console.log("Skipping file " + msg.content);    
+                    // Delete file from bucket
+                    var delReq = {
+                      queueId: queueId,
+                      messageReceipt: msg.receipt
+                    };
+                    qClient.deleteMessage(delReq);
+                } else {
+                    console.log("Scanning " + msg.content);
+                    exec("./scan.sh " + msg.content, (error, stdout, stderr) => {
+                        if (error) {
+                            console.log(`error: ${error.message}`);
+                        } else if (stderr) {
+                            console.log(`stderr: ${stderr}`);
+                        } else {
+                            //console.log(`stdout: ${stdout}`);
+                            console.log("scan completed " + msg.content);
+                            // Delete from Q
+                            var delReq = {
+                              queueId: queueId,
+                              messageReceipt: msg.receipt
+                            };
+                            qClient.deleteMessage(delReq);
+                        }
+                        inExecution = false;
+                    });
                 }
-                console.log("Scanning " + msg.content + " " + command);
-                exec("./scan.sh " + msg.content + " " + command, (error, stdout, stderr) => {
-                    if (error) {
-                        console.log(`error: ${error.message}`);
-                    } else if (stderr) {
-                        console.log(`stderr: ${stderr}`);
-                    } else {
-                        //console.log(`stdout: ${stdout}`);
-                        console.log("scan completed " + msg.content);
-                        // Delete from Q
-                        var delReq = {
-                          queueId: queueId,
-                          messageReceipt: msg.receipt
-                        };
-                        qClient.deleteMessage(delReq);
-                    }
-                    inExecution = false;
-                });
             });
         } else {
             inExecution = false;
