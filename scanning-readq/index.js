@@ -65,14 +65,12 @@ async function readQ() {
                     console.log("Just deleting file " + msg.content);    
                     // Delete file from bucket
                     console.log(msg);
-                    /*
-                    oClient.deleteObject(namespaceName, bucketName, msg.content);
+                    //oClient.deleteObject(namespaceName, bucketName, msg.content);
                     var delReq = {
                       queueId: queueId,
                       messageReceipt: msg.receipt
                     };
                     qClient.deleteMessage(delReq);
-                    */
                 } else {
                     console.log("Scanning " + msg.content);
                     exec("./scan.sh " + msg.content, (error, stdout, stderr) => {
@@ -150,13 +148,13 @@ LQh/jgcr5mXMeWOhnioOxA==
       region
     );
     */
+    oClient = new objectstorage.ObjectStorageClient({
+      authenticationDetailsProvider: provider
+    });
     qClient = new queue.QueueClient({
       authenticationDetailsProvider: provider
     });
     qClient.endpoint = endpoint;
-    oClient = new objectstorage.ObjectStorageClient({
-      authenticationDetailsProvider: provider
-    });
     setInterval(readQ,5000);
   } catch (err) {
     console.error('Queue init() error: ' + err.message);
