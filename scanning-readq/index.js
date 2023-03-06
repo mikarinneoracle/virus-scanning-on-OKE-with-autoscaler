@@ -76,6 +76,7 @@ async function readQ() {
                       messageReceipt: msg.receipt
                     };
                     qClient.deleteMessage(delReq);
+                    inExecution = false;
                 } else {
                     console.log("Scanning " + msg.content);
                     exec("./scan.sh " + msg.content, (error, stdout, stderr) => {
