@@ -148,7 +148,7 @@ LQh/jgcr5mXMeWOhnioOxA==
       region
     );
     */
-    oClient = new objectstorage.ObjectStorageClient({
+    oClient = new os.ObjectStorageClient({
       authenticationDetailsProvider: provider
     });
     qClient = new queue.QueueClient({
