@@ -64,8 +64,7 @@ async function readQ() {
                 if(msg.content.includes("/")) {
                     console.log("Just deleting file " + msg.content);    
                     // Delete file from bucket
-                    console.log(msg);
-                    //oClient.deleteObject(namespaceName, bucketName, msg.content);
+                    oClient.deleteObject("frsxwtjslf35", "scanning-ms", msg.content);
                     var delReq = {
                       queueId: queueId,
                       messageReceipt: msg.receipt
