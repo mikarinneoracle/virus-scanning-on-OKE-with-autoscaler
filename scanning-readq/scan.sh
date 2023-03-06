@@ -4,12 +4,7 @@
 rm -f report.$1.txt
 rm -rf scandir
 mkdir scandir
-echo "Scanning $1 $2"
-#if [ "$2" == "delete" ]; then
-#    echo "Deleting $2 only"
-#    /root/bin/oci os object delete --bucket-name scanning-ms --object-name $1 --region eu-amsterdam-1 --force --auth instance_principal
-#    exit
-#fi
+echo "Scanning $1"
 /root/bin/oci os object get --bucket-name scanning-ms --name $1 --region eu-amsterdam-1 --file scandir/$1 --auth instance_principal
 uvscan -v --unzip --analyze --summary --afc 512 --program --mime --recursive --threads=$(nproc) --report=report.$1.txt --rptall --rptcor --rpterr --rptobjects scandir
 isInFile=$(cat report.$1.txt | grep -c "Possibly Infected:.............     0")

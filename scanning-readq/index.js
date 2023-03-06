@@ -15,6 +15,7 @@ const endpoint = 'https://cell-1.queue.messaging.eu-amsterdam-1.oci.oraclecloud.
 
 var provider;
 var qClient;
+var oClient;
 var inExecution = false;
 
 app.get('/stats', (req, res) => {
@@ -61,13 +62,17 @@ async function readQ() {
         {
             getRes.getMessages.messages.forEach(function(msg) {
                 if(msg.content.includes("/")) {
-                    console.log("Skipping file " + msg.content);    
+                    console.log("Just deleting file " + msg.content);    
                     // Delete file from bucket
+                    console.log(msg);
+                    /*
+                    oClient.deleteObject(namespaceName, bucketName, msg.content);
                     var delReq = {
                       queueId: queueId,
                       messageReceipt: msg.receipt
                     };
                     qClient.deleteMessage(delReq);
+                    */
                 } else {
                     console.log("Scanning " + msg.content);
                     exec("./scan.sh " + msg.content, (error, stdout, stderr) => {
@@ -100,7 +105,8 @@ async function readQ() {
 
 async function init() {
   try {
-    //provider = await new common.InstancePrincipalsAuthenticationDetailsProviderBuilder().build();
+    provider = await new common.InstancePrincipalsAuthenticationDetailsProviderBuilder().build();
+    /*
     // Use this locally:
     const tenancy = "ocid1.tenancy.oc1..aaaaaaaa4wptnxymnypvjjltnejidchjhz6uimlhru7rdi5qb6qlnmrtgu3a";
     const user = "ocid1.user.oc1..aaaaaaaan6v5pipc5vg675p7dc6fbic3ynf2hillsgvzhsvz37vgljmrbt5a";
@@ -143,10 +149,14 @@ LQh/jgcr5mXMeWOhnioOxA==
       passphrase,
       region
     );
+    */
     qClient = new queue.QueueClient({
       authenticationDetailsProvider: provider
     });
-    qClient.endpoint = endpoint;    
+    qClient.endpoint = endpoint;
+    oClient = new objectstorage.ObjectStorageClient({
+      authenticationDetailsProvider: provider
+    });
     setInterval(readQ,5000);
   } catch (err) {
     console.error('Queue init() error: ' + err.message);
