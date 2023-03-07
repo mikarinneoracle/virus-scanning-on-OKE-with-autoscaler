@@ -1,20 +1,28 @@
 apiVersion: keda.sh/v1alpha1
-kind: ScaledObject
+kind: ScaledJob
 metadata:
-  name: http-so-scanning-readq
-  labels:
-    deploymentName: scanning-readq
+  name: scanning-readq-job-scaler
 spec:
-  pollingInterval: 5 #Interval for polling
-  maxReplicaCount: 500
-  idleReplicaCount: 3 # When idle, scale-in to 1 pods
-  minReplicaCount: 5
-  cooldownPeriod: 300 # Optional. Default: 300 seconds
-  scaleTargetRef:
-    name: scanning-readq
+  jobTargetRef:
+    template:
+      spec:
+        containers:
+        - name: scanning-readq-job
+          image: ams.ocir.io/frsxwtjslf35/scanning-readq-job:0.6
+          imagePullPolicy: Always
+        restartPolicy: OnFailure
+    backoffLimit: 4  
+  pollingInterval: 1              # Optional. Default: 30 seconds
+  maxReplicaCount: 20             # Optional. Default: 100
+  successfulJobsHistoryLimit: 3   # Optional. Default: 100. How many completed jobs should be kept.
+  failedJobsHistoryLimit: 2       # Optional. Default: 100. How many failed jobs should be kept.
+  scalingStrategy:
+    strategy: "custom"                        # Optional. Default: default. Which Scaling Strategy to use.
+    customScalingQueueLengthDeduction: 1      # Optional. A parameter to optimize custom ScalingStrategy.
+    customScalingRunningJobPercentage: "0.5"  # Optional. A parameter to optimize custom ScalingStrategy.
   triggers:
     - type: metrics-api
       metadata:
-        targetValue: "3"
+        targetValue: "5"
         url: "http://144.21.40.43:3000/stats"
         valueLocation: 'queueStats.queue.visibleMessages'

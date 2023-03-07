@@ -60,7 +60,7 @@ async function readQ() {
                 }
             });
             console.log("Job reading from Q ..");
-            getRes = await client.getMessages(getReq).catch(error => {
+            getRes = await qClient.getMessages(getReq).catch(error => {
                 console.log(error);
             });
         }
