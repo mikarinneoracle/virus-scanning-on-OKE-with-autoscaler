@@ -1,14 +1,17 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: readq-job
+  name: scanning-readq-job
 spec:
   parallelism: 2
   template:
     metadata:
-      name: readq-job
+      name: scanning-readq-job
     spec:
       containers:
       - name: readq-job
         image: ams.ocir.io/frsxwtjslf35/scanning-readq-job:0.1
+        imagePullPolicy: Always
       restartPolicy: OnFailure
+      imagePullSecrets:
+      - name: amsocirsecret

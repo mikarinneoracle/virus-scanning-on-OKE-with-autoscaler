@@ -21,6 +21,7 @@ async function readQ() {
         var getRes = await qClient.getMessages(getReq).catch(error => {
             console.log(error);
         });
+        console.log(getRes);
         if(getRes.getMessages.messages.length) // Expect to be always 1
         {
             getRes.getMessages.messages.forEach(function(msg) {
