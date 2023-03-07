@@ -17,11 +17,11 @@ async function readQ() {
           queueId: queueId,
           timeoutInSeconds: 5
         };
-        console.log("Job reading from Q .. ");
-        var getRes = await qClient.getMessages(getReq).catch(error => {
+        console.log("Job reading from Q ..");
+        var getRes = await client.getMessages(getReq).catch(error => {
             console.log(error);
         });
-        while(getRes && getRes.getMessages && getRes.getMessages.messages.length) // Expect length to be always 1
+        while(getRes && getRes.getMessages && getRes.getMessages.messages.length)
         {
             getRes.getMessages.messages.forEach(function(msg) {
                 if(msg.content.includes("/")) {
@@ -59,7 +59,7 @@ async function readQ() {
                     });
                 }
             });
-            console.log("Job reading from Q .. ");
+            console.log("Job reading from Q ..");
             getRes = await client.getMessages(getReq).catch(error => {
                 console.log(error);
             });
