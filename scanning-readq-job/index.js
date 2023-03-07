@@ -15,15 +15,13 @@ async function readQ() {
     try {
         var getReq = {
           queueId: queueId,
-          timeoutInSeconds: 2
+          timeoutInSeconds: 5
         };
-        console.log("ReadQ reading from Q .. ");
+        console.log("Job reading from Q .. ");
         var getRes = await qClient.getMessages(getReq).catch(error => {
             console.log(error);
         });
-        console.log(getRes);
-        if(getRes.getMessages.messages.length) // Expect to be always 1
-        {
+        while(getRes && getRes.getMessages && getRes.getMessages.messages.length) // Expect length to be always 1
             getRes.getMessages.messages.forEach(function(msg) {
                 if(msg.content.includes("/")) {
                     console.log("Just deleting file " + msg.content);    
@@ -60,7 +58,12 @@ async function readQ() {
                     });
                 }
             });
+            console.log("Job reading from Q .. ");
+            getRes = await client.getMessages(getReq).catch(error => {
+                console.log(error);
+            });
         }
+        console.log("Job finished from Q - Q empty. ");
     } catch (error) {
         console.log("ReadQ error: " + error);
     } finally {
