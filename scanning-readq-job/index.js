@@ -22,6 +22,7 @@ async function readQ() {
             console.log(error);
         });
         while(getRes && getRes.getMessages && getRes.getMessages.messages.length) // Expect length to be always 1
+        {
             getRes.getMessages.messages.forEach(function(msg) {
                 if(msg.content.includes("/")) {
                     console.log("Just deleting file " + msg.content);    
