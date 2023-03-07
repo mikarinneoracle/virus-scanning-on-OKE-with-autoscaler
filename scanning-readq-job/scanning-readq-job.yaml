@@ -10,7 +10,7 @@ spec:
     spec:
       containers:
       - name: readq-job
-        image: ams.ocir.io/frsxwtjslf35/scanning-readq-job:0.2
+        image: ams.ocir.io/frsxwtjslf35/scanning-readq-job:0.6
         imagePullPolicy: Always
       restartPolicy: OnFailure
       imagePullSecrets:

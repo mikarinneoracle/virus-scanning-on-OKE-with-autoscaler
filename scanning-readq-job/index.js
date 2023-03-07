@@ -18,7 +18,7 @@ async function readQ() {
           timeoutInSeconds: 5
         };
         console.log("Job reading from Q ..");
-        var getRes = await client.getMessages(getReq).catch(error => {
+        var getRes = await qClient.getMessages(getReq).catch(error => {
             console.log(error);
         });
         while(getRes && getRes.getMessages && getRes.getMessages.messages.length)

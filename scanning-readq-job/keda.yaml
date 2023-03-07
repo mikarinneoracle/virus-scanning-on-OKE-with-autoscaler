@@ -8,9 +8,11 @@ spec:
       spec:
         containers:
         - name: scanning-readq-job
-          image: ams.ocir.io/frsxwtjslf35/scanning-readq-job:0.6
+          image: ams.ocir.io/frsxwtjslf35/scanning-readq-job:0.7
           imagePullPolicy: Always
         restartPolicy: OnFailure
+        imagePullSecrets:
+        - name: amsocirsecret
     backoffLimit: 4  
   pollingInterval: 1              # Optional. Default: 30 seconds
   maxReplicaCount: 20             # Optional. Default: 100
@@ -23,6 +25,6 @@ spec:
   triggers:
     - type: metrics-api
       metadata:
-        targetValue: "5"
+        targetValue: "2"
         url: "http://144.21.40.43:3000/stats"
         valueLocation: 'queueStats.queue.visibleMessages'
