@@ -1,8 +1,3 @@
-const fs = require('fs');
-const http = require("http");
-const express = require('express');
-const app = express();
-const path = require('path');
 const queue = require("oci-queue");
 const core = require("oci-core");
 const common = require("oci-common");
@@ -15,45 +10,14 @@ const endpoint = 'https://cell-1.queue.messaging.eu-amsterdam-1.oci.oraclecloud.
 var provider;
 var qClient;
 var oClient;
-var inExecution = false;
-
-app.get('/stats', (req, res) => {
-  getStats() .then((json) => {
-     //console.log(json);
-     res.send(JSON.stringify(json));
-  });
-});
-
-
-async function getStats() {
-    try {
-        //console.log("Getting Queue stats .. ");
-        const statsReq = {
-          queueId: queueId
-        };
-        var statsRes = await qClient.getStats(statsReq).catch(error => {
-            console.log(error);
-        });
-        //console.log(statsRes);
-        return statsRes; // .queueStats.queue.visibleMessages;
-    } catch (error) {
-        console.log("Error: " + error);
-    }
-}
 
 async function readQ() {
-    if(inExecution)
-    {
-        //console.log("ReadQ scanning in execution .. passing cycle ..")
-        return;
-    }
-    inExecution = true;
     try {
         var getReq = {
           queueId: queueId,
           timeoutInSeconds: 2
         };
-        //console.log("ReadQ reading from Q .. ");
+        console.log("ReadQ reading from Q .. ");
         var getRes = await qClient.getMessages(getReq).catch(error => {
             console.log(error);
         });
@@ -75,7 +39,6 @@ async function readQ() {
                       messageReceipt: msg.receipt
                     };
                     qClient.deleteMessage(delReq);
-                    inExecution = false;
                 } else {
                     console.log("Scanning " + msg.content);
                     exec("./scan.sh " + msg.content, (error, stdout, stderr) => {
@@ -93,12 +56,9 @@ async function readQ() {
                             };
                             qClient.deleteMessage(delReq);
                         }
-                        inExecution = false;
                     });
                 }
             });
-        } else {
-            inExecution = false;
         }
     } catch (error) {
         console.log("ReadQ error: " + error);
@@ -116,11 +76,10 @@ async function init() {
       authenticationDetailsProvider: provider
     });
     qClient.endpoint = endpoint;
-    setInterval(readQ,5000);
+    readQ();
   } catch (err) {
     console.error('Queue init() error: ' + err.message);
   }
 }
 
 init();
-app.listen(3000);

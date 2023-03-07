@@ -1,0 +1,20 @@
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: http-so-scanning-readq
+  labels:
+    deploymentName: scanning-readq
+spec:
+  pollingInterval: 5 #Interval for polling
+  maxReplicaCount: 500
+  idleReplicaCount: 3 # When idle, scale-in to 1 pods
+  minReplicaCount: 5
+  cooldownPeriod: 300 # Optional. Default: 300 seconds
+  scaleTargetRef:
+    name: scanning-readq
+  triggers:
+    - type: metrics-api
+      metadata:
+        targetValue: "3"
+        url: "http://144.21.40.43:3000/stats"
+        valueLocation: 'queueStats.queue.visibleMessages'
