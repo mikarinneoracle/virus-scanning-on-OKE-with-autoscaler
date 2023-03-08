@@ -29,36 +29,23 @@ async function readQ() {
                 var cmd = "scan";
                 if(msg.content.includes("/")) {
                     console.log("Just deleting file " + msg.content);    
-                    await oClient.deleteObject(delObjReq).catch(async function(error) {
-                        console.log("Delete error");
-                        console.log(error);
-                    });
-                    console.log("Deleting message from Q.");
+                    cmd = "delete";
+                } else {
+                    console.log("Scanning " + msg.content);   
+                }
+                await scan("./scan.sh " + msg.content + " " + cmd, async function(error, stdout, stderr) {
+                    if(error) console.log(error);
+                    if(stderr) console.log(stderr);
+                    if(stdout) console.log(stdout);
+                    var delReq = {
+                          queueId: queueId,
+                          messageReceipt: msg.receipt
+                    };
                     await qClient.deleteMessage(delReq).catch(error => {
                         console.log(error);
                     });
                     readQ();
-                } else {
-                    console.log("Scanning " + msg.content);   
-                    await scan("./scan.sh " + msg.content, async function(error, stdout, stderr) {
-                        if (error || stderr) {
-                            console.log("Scan failed:");
-                            console.log( error ? error : "" + " " + stderr ? stderr : "");
-                        } else {
-                            console.log("Scan succesful:");
-                            console.log( stdout ? stdout : "");
-                        }
-                        console.log("Deleting message from Q.");
-                        var delReq = {
-                              queueId: queueId,
-                              messageReceipt: msg.receipt
-                        };
-                        await qClient.deleteMessage(delReq).catch(error => {
-                            console.log(error);
-                        });
-                        readQ();
-                    });
-                }
+                });
             });
         } else {
             console.log("Job finished from Q - Q empty. ");
