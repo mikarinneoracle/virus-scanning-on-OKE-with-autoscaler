@@ -26,48 +26,38 @@ async function readQ() {
         if(getRes && getRes.getMessages && getRes.getMessages.messages.length)
         {
             getRes.getMessages.messages.forEach(async function(msg) {
-                if(msg.content.includes("/")) {
-                    console.log("Just deleting file " + msg.content);    
-                    var delObjReq = {
-                      namespaceName: "frsxwtjslf35",
-                      bucketName: "scanning-ms",
-                      objectName: msg.content
-                    };
-                    await oClient.deleteObject(delObjReq).catch(error => {
-                        console.log(error);
-                    });
-                    var delReq = {
+                var delReq = {
                       queueId: queueId,
                       messageReceipt: msg.receipt
-                    };
-                    await qClient.deleteMessage(delReq).catch(error => {
-                        console.log(error);
-                    });
-                    readQ();
+                };
+                await qClient.deleteMessage(delReq).catch(error => {
+                    console.log(error);
+                });
+                var cmd = "scan";
+                if(msg.content.includes("/")) {
+                    console.log("Just deleting file " + msg.content);    
+                    cmd = "delete";
                 } else {
-                    console.log("Scanning " + msg.content);
-                    await scan("./scan.sh " + msg.content, async function(error, stdout, stderr) {
-                        if (error) {
-                            console.log(`error: ${error.message}`);
-                        } else if (stderr) {
-                            console.log(`stderr: ${stderr}`);
-                        } else {
-                            //console.log(`stdout: ${stdout}`);
-                            console.log("scan completed " + msg.content);
-                            // Delete from Q
-                            var delReq = {
-                              queueId: queueId,
-                              messageReceipt: msg.receipt
-                            };
-                            await qClient.deleteMessage(delReq).catch(error => {
-                                console.log(error);
-                            });
-                            readQ();
-                        }
-                    });
+                    console.log("Scanning " + msg.content);   
                 }
+                await scan("./scan.sh " + msg.content + " " + cmd, async function(error, stdout, stderr) {
+                    if (error || stderr) {
+                        console.log( error ? error : "" + " " + stderr ? stderr : "");
+                        var putReq = {
+                          queueId: queueId,
+                          putMessagesDetails: { messages : [ { content: msg.content } ] }
+                        };
+                        console.log("Scan failed ... putting back to Q: " + msg.content)
+                        await qClient.putMessages(putReq).catch(error => {
+                            console.log(error);
+                        });
+                    } else {
+                        console.log( stdout ? stdout : "");
+                    }
+                    console.log("Scan completed " + msg.content);
+                    readQ();
+                });
             });
-            
         } else {
             console.log("Job finished from Q - Q empty. ");
             process.exit();   
