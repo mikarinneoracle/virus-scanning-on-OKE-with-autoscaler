@@ -1,5 +1,6 @@
+#!/bin/bash
 #echo $1 $2
-if [ "$2" == "delete" ]; then
+if [ "$2" = "delete" ]; then
     echo "deleting $1"
     /root/bin/oci os object delete --bucket-name scanning-ms --object-name $1 --region eu-amsterdam-1 --force --auth instance_principal
     exit
