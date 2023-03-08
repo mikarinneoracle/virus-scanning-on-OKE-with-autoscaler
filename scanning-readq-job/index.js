@@ -35,7 +35,7 @@ async function readQ() {
                 }
                 await scan("./scan.sh " + msg.content + " " + cmd, async function(error, stdout, stderr) {
                     if(error) console.log(error);
-                    if(stderr) console.log(stderr);
+                    //if(stderr) console.log(stderr);
                     if(stdout) console.log(stdout.substring(stdout.indexOf('#################'), stdout.indexOf('#################') + 76));
                     var delReq = {
                           queueId: queueId,
@@ -48,7 +48,7 @@ async function readQ() {
                 });
             });
         } else {
-            console.log("Job finished from Q - Q empty. ");
+            console.log("Q empty -finishing up ");
             process.exit();   
         }
     } catch (error) {
