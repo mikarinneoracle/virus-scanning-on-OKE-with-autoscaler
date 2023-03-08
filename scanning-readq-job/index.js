@@ -26,13 +26,6 @@ async function readQ() {
         if(getRes && getRes.getMessages && getRes.getMessages.messages.length)
         {
             getRes.getMessages.messages.forEach(async function(msg) {
-                var delReq = {
-                      queueId: queueId,
-                      messageReceipt: msg.receipt
-                };
-                await qClient.deleteMessage(delReq).catch(error => {
-                    console.log(error);
-                });
                 var cmd = "scan";
                 if(msg.content.includes("/")) {
                     console.log("Just deleting file " + msg.content);    
@@ -42,19 +35,20 @@ async function readQ() {
                 }
                 await scan("./scan.sh " + msg.content + " " + cmd, async function(error, stdout, stderr) {
                     if (error || stderr) {
+                        console.log("Scan failed:");
                         console.log( error ? error : "" + " " + stderr ? stderr : "");
-                        var putReq = {
-                          queueId: queueId,
-                          putMessagesDetails: { messages : [ { content: msg.content } ] }
-                        };
-                        console.log("Scan failed ... putting back to Q: " + msg.content)
-                        await qClient.putMessages(putReq).catch(error => {
-                            console.log(error);
-                        });
                     } else {
+                        console.log("Scan succesful:");
                         console.log( stdout ? stdout : "");
                     }
-                    console.log("Scan completed " + msg.content);
+                    console.log("Deleting message from Q.");
+                    var delReq = {
+                          queueId: queueId,
+                          messageReceipt: msg.receipt
+                    };
+                    await qClient.deleteMessage(delReq).catch(error => {
+                        console.log(error);
+                    });
                     readQ();
                 });
             });
