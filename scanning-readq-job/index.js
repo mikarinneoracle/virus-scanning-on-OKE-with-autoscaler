@@ -2,9 +2,9 @@ const queue = require("oci-queue");
 const core = require("oci-core");
 const common = require("oci-common");
 const os = require("oci-objectstorage");
+const loggingingestion = require("oci-loggingingestion");
 const { exec } = require("child_process");
 const util = require('util');
-const fs = require('fs');
 
 const queueId = 'ocid1.queue.oc1.eu-amsterdam-1.amaaaaaauevftmqa4er5filmkshxfpad2leyurhw7t7ilg4txundaly6g7ba';
 const endpoint = 'https://cell-1.queue.messaging.eu-amsterdam-1.oci.oraclecloud.com';
@@ -12,7 +12,7 @@ const endpoint = 'https://cell-1.queue.messaging.eu-amsterdam-1.oci.oraclecloud.
 var provider;
 var qClient;
 var oClient;
-var log;
+var lClient;
 
 async function readQ() {
     try {
@@ -39,7 +39,6 @@ async function readQ() {
                     if(error) console.log(error);
                     //if(stderr) console.log(stderr);
                     if(stdout) console.log(stdout.substring(stdout.indexOf('#################'), stdout.indexOf('#################') + 76));
-                    log.write(stdout);
                     var delReq = {
                           queueId: queueId,
                           messageReceipt: msg.receipt
@@ -61,8 +60,8 @@ async function readQ() {
 }
 
 async function init() {
+    /*
   try {
-      /*
     const region = common.Region.EU_AMSTERDAM_1;
       provider = new common.SimpleAuthenticationDetailsProvider(
       "ocid1.tenancy.oc1..aaaaaaaa4wptnxymnypvjjltnejidchjhz6uimlhru7rdi5qb6qlnmrtgu3a",
@@ -99,8 +98,32 @@ LQh/jgcr5mXMeWOhnioOxA==
       region
     );
     */
-    log = fs.createWriteStream(`/app_logs/scanning.log`);
     provider = await new common.InstancePrincipalsAuthenticationDetailsProviderBuilder().build();
+      
+    lClient = new loggingingestion.LoggingClient({ authenticationDetailsProvider: provider });
+    const putLogsDetails = {
+      specversion: "1.0",
+      logEntryBatches: [
+        {
+          entries: [
+            {
+              data: "testing"
+            }
+          ],
+          source: "OKE",
+          type: "/var/log/scanning.log",
+          subject: "scanning-ms-log"
+        }
+      ]
+    };
+    var putLogsRequest = loggingingestion.requests.PutLogsRequest = {
+      logId: "ocid1.log.oc1.eu-amsterdam-1.amaaaaaauevftmqafwnledrp24iogeyccseh7dsgloo2euuvk4om7jpc4pvq",
+      putLogsDetails: putLogsDetails,
+      timestampOpcAgentProcessing: new Date()
+    };
+    const putLogsResponse = await lClient.putLogs(putLogsRequest);
+    console.log(putLogsResponse);
+  
     oClient = new os.ObjectStorageClient({
       authenticationDetailsProvider: provider
     });
