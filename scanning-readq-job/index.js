@@ -37,7 +37,6 @@ async function readQ() {
                     if(error) console.log(error);
                     //if(stderr) console.log(stderr);
                     if(stdout) console.log(stdout.substring(stdout.indexOf('#################'), stdout.indexOf('#################') + 76));
-                    log.write(stdout);
                     var delReq = {
                           queueId: queueId,
                           messageReceipt: msg.receipt
