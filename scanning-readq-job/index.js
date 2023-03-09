@@ -39,6 +39,8 @@ async function readQ() {
                     if(error) console.log(error);
                     //if(stderr) console.log(stderr);
                     if(stdout) console.log(stdout.substring(stdout.indexOf('#################'), stdout.indexOf('#################') + 76));
+                    writeLog("Scanning " + msg.content);
+                    if(stdout) writeLog(stdout.substring(stdout.indexOf('#################'), stdout.indexOf('#################') + 76));
                     var delReq = {
                           queueId: queueId,
                           messageReceipt: msg.receipt
@@ -57,6 +59,36 @@ async function readQ() {
         console.log("ReadQ error: " + error);
     } finally {
     }
+}
+
+async function writeLog(data)
+{
+  try {
+        const putLogsDetails = {
+          specversion: "1.0",
+          logEntryBatches: [
+            {
+              entries: [
+                {
+                  id: "scanning-readq-job",
+                  data: data
+                }
+              ],
+              source: "OKE-pod",
+              type: "custom",
+              subject: "scanning-ms-log"
+            }
+          ]
+        };
+        var putLogsRequest = loggingingestion.requests.PutLogsRequest = {
+          logId: "ocid1.log.oc1.eu-amsterdam-1.amaaaaaauevftmqafwnledrp24iogeyccseh7dsgloo2euuvk4om7jpc4pvq",
+          putLogsDetails: putLogsDetails,
+          timestampOpcAgentProcessing: new Date()
+        };
+        const putLogsResponse = await lClient.putLogs(putLogsRequest);
+  } catch (err) {
+    console.error('Log error: ' + err.message);
+  }
 }
 
 async function init() {
@@ -101,30 +133,8 @@ LQh/jgcr5mXMeWOhnioOxA==
     provider = await new common.InstancePrincipalsAuthenticationDetailsProviderBuilder().build();
       
     lClient = new loggingingestion.LoggingClient({ authenticationDetailsProvider: provider });
-    const putLogsDetails = {
-      specversion: "1.0",
-      logEntryBatches: [
-        {
-          entries: [
-            {
-              id: "ocid1.test.oc1..12345",
-              data: "testing"
-            }
-          ],
-          source: "OKE",
-          type: "/var/log/scanning.log",
-          subject: "scanning-ms-log"
-        }
-      ]
-    };
-    var putLogsRequest = loggingingestion.requests.PutLogsRequest = {
-      logId: "ocid1.log.oc1.eu-amsterdam-1.amaaaaaauevftmqafwnledrp24iogeyccseh7dsgloo2euuvk4om7jpc4pvq",
-      putLogsDetails: putLogsDetails,
-      timestampOpcAgentProcessing: new Date()
-    };
-    const putLogsResponse = await lClient.putLogs(putLogsRequest);
-    console.log(putLogsResponse);
-  
+    writeLog("Starting scanning-readq");
+      
     oClient = new os.ObjectStorageClient({
       authenticationDetailsProvider: provider
     });
