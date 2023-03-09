@@ -4,6 +4,7 @@ const common = require("oci-common");
 const os = require("oci-objectstorage");
 const { exec } = require("child_process");
 const util = require('util');
+const fs = require('fs');
 
 const queueId = 'ocid1.queue.oc1.eu-amsterdam-1.amaaaaaauevftmqa4er5filmkshxfpad2leyurhw7t7ilg4txundaly6g7ba';
 const endpoint = 'https://cell-1.queue.messaging.eu-amsterdam-1.oci.oraclecloud.com';
@@ -11,6 +12,7 @@ const endpoint = 'https://cell-1.queue.messaging.eu-amsterdam-1.oci.oraclecloud.
 var provider;
 var qClient;
 var oClient;
+var log;
 
 async function readQ() {
     try {
@@ -37,6 +39,9 @@ async function readQ() {
                     if(error) console.log(error);
                     //if(stderr) console.log(stderr);
                     if(stdout) console.log(stdout.substring(stdout.indexOf('#################'), stdout.indexOf('#################') + 76));
+                    log.write(error);
+                    log.write(stderr);
+                    log.write(stdout);
                     var delReq = {
                           queueId: queueId,
                           messageReceipt: msg.receipt
@@ -48,7 +53,7 @@ async function readQ() {
                 });
             });
         } else {
-            console.log("Q empty -finishing up ");
+            console.log("Q empty - finishing up ");
             process.exit();   
         }
     } catch (error) {
@@ -96,6 +101,7 @@ LQh/jgcr5mXMeWOhnioOxA==
       region
     );
     */
+    log = fs.createWriteStream(`/var/log/containers/scanning.log`);
     provider = await new common.InstancePrincipalsAuthenticationDetailsProviderBuilder().build();
     oClient = new os.ObjectStorageClient({
       authenticationDetailsProvider: provider
