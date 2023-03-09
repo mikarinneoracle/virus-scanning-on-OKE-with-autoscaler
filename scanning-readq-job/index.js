@@ -36,10 +36,10 @@ async function readQ() {
                     console.log("Scanning " + msg.content);   
                 }
                 await scan("./scan.sh " + msg.content + " " + cmd, async function(error, stdout, stderr) {
-                    if(error) if(stdout) writeLog(msg.content, error);
+                    if(error) if(stdout) writeLog(msg.content, "Scanning error " + msg.content , error);
                     //if(stderr) console.log(stderr);
                     if(stdout) console.log(stdout.substring(stdout.indexOf('#################'), stdout.indexOf('#################') + 76));
-                    if(stdout) writeLog(msg.content, msg.content + ":" + stdout.substring(stdout.indexOf('#################'), stdout.indexOf('#################') + 76));
+                    if(stdout) writeLog(msg.content, "Scanning " + msg.content, stdout.substring(stdout.indexOf('#################'), stdout.indexOf('#################') + 76));
                     var delReq = {
                           queueId: queueId,
                           messageReceipt: msg.receipt
@@ -60,7 +60,7 @@ async function readQ() {
     }
 }
 
-async function writeLog(subject, data)
+async function writeLog(subject, type, data)
 {
   try {
         const putLogsDetails = {
@@ -74,7 +74,7 @@ async function writeLog(subject, data)
                 }
               ],
               source: "OKE scanning-readq-job",
-              type: "custom",
+              type: type,
               subject: subject
             }
           ]
