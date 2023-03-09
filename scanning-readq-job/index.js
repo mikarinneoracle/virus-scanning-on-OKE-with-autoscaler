@@ -60,8 +60,8 @@ async function readQ() {
 }
 
 async function init() {
-    /*
   try {
+  /*
     const region = common.Region.EU_AMSTERDAM_1;
       provider = new common.SimpleAuthenticationDetailsProvider(
       "ocid1.tenancy.oc1..aaaaaaaa4wptnxymnypvjjltnejidchjhz6uimlhru7rdi5qb6qlnmrtgu3a",
