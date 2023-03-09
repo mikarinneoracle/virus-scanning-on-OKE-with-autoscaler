@@ -39,8 +39,9 @@ async function readQ() {
                     if(error) console.log(error);
                     //if(stderr) console.log(stderr);
                     if(stdout) console.log(stdout.substring(stdout.indexOf('#################'), stdout.indexOf('#################') + 76));
-                    writeLog("Scanning " + msg.content);
-                    if(stdout) writeLog(stdout.substring(stdout.indexOf('#################'), stdout.indexOf('#################') + 76));
+                    
+                    if(stdout) writeLog( msg.content + ":" + stdout.substring(stdout.indexOf('#################'), stdout.indexOf('#################') + 76));
+                    
                     var delReq = {
                           queueId: queueId,
                           messageReceipt: msg.receipt
