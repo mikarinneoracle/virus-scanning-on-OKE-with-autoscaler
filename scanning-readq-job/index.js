@@ -36,12 +36,10 @@ async function readQ() {
                     console.log("Scanning " + msg.content);   
                 }
                 await scan("./scan.sh " + msg.content + " " + cmd, async function(error, stdout, stderr) {
-                    if(error) console.log(error);
+                    if(error) if(stdout) writeLog(msg.content, error);
                     //if(stderr) console.log(stderr);
                     if(stdout) console.log(stdout.substring(stdout.indexOf('#################'), stdout.indexOf('#################') + 76));
-                    
-                    if(stdout) writeLog( msg.content + ":" + stdout.substring(stdout.indexOf('#################'), stdout.indexOf('#################') + 76));
-                    
+                    if(stdout) writeLog(msg.content, msg.content + ":" + stdout.substring(stdout.indexOf('#################'), stdout.indexOf('#################') + 76));
                     var delReq = {
                           queueId: queueId,
                           messageReceipt: msg.receipt
@@ -62,7 +60,7 @@ async function readQ() {
     }
 }
 
-async function writeLog(data)
+async function writeLog(subject, data)
 {
   try {
         const putLogsDetails = {
@@ -71,13 +69,13 @@ async function writeLog(data)
             {
               entries: [
                 {
-                  id: "scanning-readq-job",
+                  id: "scanning-readq-job " + subject,
                   data: data
                 }
               ],
-              source: "OKE-pod",
+              source: "OKE scanning-readq-job",
               type: "custom",
-              subject: "scanning-ms-log"
+              subject: subject
             }
           ]
         };
@@ -134,7 +132,6 @@ LQh/jgcr5mXMeWOhnioOxA==
     provider = await new common.InstancePrincipalsAuthenticationDetailsProviderBuilder().build();
       
     lClient = new loggingingestion.LoggingClient({ authenticationDetailsProvider: provider });
-    writeLog("Starting scanning-readq");
       
     oClient = new os.ObjectStorageClient({
       authenticationDetailsProvider: provider
