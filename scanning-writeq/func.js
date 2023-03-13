@@ -7,22 +7,24 @@ fdk.handle(async function(event) {
     
     var res = "";
     var content = "";
-    const queueId = 'ocid1.queue.oc1.eu-amsterdam-1.amaaaaaauevftmqa4er5filmkshxfpad2leyurhw7t7ilg4txundaly6g7ba';
-    const endpoint = 'https://cell-1.queue.messaging.eu-amsterdam-1.oci.oraclecloud.com';    
+    const queueId = process.env.queue-ocid;
+    const endpoint = process.env.queue-endpoint;
     
     console.log(event);
     try {
+        /*
         if(event.data && event.data.resourceName)
         {
             console.log(event.data.resourceName);
             content = event.data.resourceName;
         }
+        */
 
         const provider = await common.ResourcePrincipalAuthenticationDetailsProvider.builder();
         const qClient = new queue.QueueClient({ authenticationDetailsProvider: provider });
         qClient.endpoint = endpoint;
 
-        console.log("Writing '" + content + "' to Queue .. ");
+        console.log("Writing '" + content + "' to Q .. ");
         const putReq = {
           queueId: queueId,
           putMessagesDetails: { messages : [ { content: content } ] }
@@ -31,7 +33,7 @@ fdk.handle(async function(event) {
         res = await qClient.putMessages(putReq);  
     } catch (error) {
         console.log("Error: " + error);
-        res = "error " + error + ", queue:" + queueId;
+        res = "Writeq error " + error + ", queue:" + queueId;
     } finally {
         return res;
     }
