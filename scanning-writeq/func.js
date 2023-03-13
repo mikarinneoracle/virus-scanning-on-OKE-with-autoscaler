@@ -12,13 +12,11 @@ fdk.handle(async function(event) {
     
     console.log(event);
     try {
-        /*
         if(event.data && event.data.resourceName)
         {
-            console.log(event.data.resourceName);
+            //console.log(event.data.resourceName);
             content = event.data.resourceName;
         }
-        */
 
         const provider = await common.ResourcePrincipalAuthenticationDetailsProvider.builder();
         const qClient = new queue.QueueClient({ authenticationDetailsProvider: provider });
