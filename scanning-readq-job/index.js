@@ -6,9 +6,8 @@ const loggingingestion = require("oci-loggingingestion");
 const { exec } = require("child_process");
 const util = require('util');
 
-const queueId = 'ocid1.queue.oc1.eu-amsterdam-1.amaaaaaauevftmqa4er5filmkshxfpad2leyurhw7t7ilg4txundaly6g7ba';
-const endpoint = 'https://cell-1.queue.messaging.eu-amsterdam-1.oci.oraclecloud.com';
-
+const queueId = process.env.queue-ocid;
+const endpoint = process.env.queue-endpoint;
 var provider;
 var qClient;
 var oClient;
