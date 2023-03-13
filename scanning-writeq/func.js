@@ -7,8 +7,8 @@ fdk.handle(async function(event) {
     
     var res = "";
     var content = "";
-    const queueId = process.env.queue-ocid;
-    const endpoint = process.env.queue-endpoint;
+    const queueId = process.env.QUEUE;
+    const endpoint = process.env.ENDPOINT;
     
     console.log(event);
     try {
