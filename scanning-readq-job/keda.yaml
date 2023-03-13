@@ -6,17 +6,22 @@ spec:
   jobTargetRef:
     template:
       spec:
+        nodeSelector:
+          name: pool2
         containers:
         - name: scanning-readq-job
-          image: ams.ocir.io/frsxwtjslf35/scanning-readq-job:0.8
+          image: ams.ocir.io/frsxwtjslf35/scanning-readq-job:2.7
           imagePullPolicy: Always
+          resources:
+            requests:
+              cpu: "500m"
         restartPolicy: OnFailure
         imagePullSecrets:
         - name: amsocirsecret
     backoffLimit: 0  
   pollingInterval: 5              # Optional. Default: 30 seconds
-  maxReplicaCount: 3             # Optional. Default: 100
-  successfulJobsHistoryLimit: 0   # Optional. Default: 100. How many completed jobs should be kept.
+  maxReplicaCount: 3              # Optional. Default: 100
+  successfulJobsHistoryLimit: 3   # Optional. Default: 100. How many completed jobs should be kept.
   failedJobsHistoryLimit: 2       # Optional. Default: 100. How many failed jobs should be kept.
   scalingStrategy:
     strategy: "default"                        # Optional. Default: default. Which Scaling Strategy to use.
@@ -25,6 +30,6 @@ spec:
   triggers:
     - type: metrics-api
       metadata:
-        targetValue: "2"
-        url: "http://144.21.40.43:3000/stats"
+        targetValue: "1"
+        url: "http://141.144.194.85:3000/stats"
         valueLocation: 'queueStats.queue.visibleMessages'

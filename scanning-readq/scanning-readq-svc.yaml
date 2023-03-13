@@ -1,12 +1,12 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: scanning-readq-svc
+  name: scanning-readq-lb
 spec:
   selector:
     name: scanning-readq
   ports:
     - protocol: TCP
       port: 3000
-      targetPort: 3000
+      targetPort: readq-http
   type: LoadBalancer
