@@ -10,7 +10,7 @@ fdk.handle(async function(event) {
     const queueId = process.env.QUEUE;
     const endpoint = process.env.ENDPOINT;
     
-    console.log(event);
+    //console.log(event);
     try {
         if(event.data && event.data.resourceName)
         {
