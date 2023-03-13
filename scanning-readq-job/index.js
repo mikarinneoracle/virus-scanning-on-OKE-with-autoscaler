@@ -94,7 +94,7 @@ async function init() {
     provider = await new common.InstancePrincipalsAuthenticationDetailsProviderBuilder().build();
       
     lClient = new loggingingestion.LoggingClient({ authenticationDetailsProvider: provider });
-    writeLog("Job started", "Job started for scanning" , "");
+    writeLog("Job started", "Job started for scanning" , "Job started for scanning");
       
     oClient = new os.ObjectStorageClient({
       authenticationDetailsProvider: provider
