@@ -8,6 +8,7 @@ const util = require('util');
 
 const queueId = process.env.QUEUE;
 const endpoint = process.env.ENDPOINT;
+const logId = process.env.LOG;
 var provider;
 var qClient;
 var oClient;
@@ -79,7 +80,7 @@ async function writeLog(subject, type, data)
           ]
         };
         var putLogsRequest = loggingingestion.requests.PutLogsRequest = {
-          logId: "ocid1.log.oc1.eu-amsterdam-1.amaaaaaauevftmqafwnledrp24iogeyccseh7dsgloo2euuvk4om7jpc4pvq",
+          logId: logId,
           putLogsDetails: putLogsDetails,
           timestampOpcAgentProcessing: new Date()
         };

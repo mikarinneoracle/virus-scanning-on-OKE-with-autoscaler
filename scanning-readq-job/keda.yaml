@@ -10,7 +10,7 @@ spec:
           name: pool2
         containers:
         - name: scanning-readq-job
-          image: ams.ocir.io/frsxwtjslf35/scanning-readq-job:3.0
+          image: ams.ocir.io/frsxwtjslf35/scanning-readq-job:3.2
           imagePullPolicy: Always
           resources:
             requests:
@@ -20,6 +20,8 @@ spec:
             value: "ocid1.queue.oc1.eu-amsterdam-1.amaaaaaauevftmqa4er5filmkshxfpad2leyurhw7t7ilg4txundaly6g7ba"
           - name: ENDPOINT
             value: "https://cell-1.queue.messaging.eu-amsterdam-1.oci.oraclecloud.com"
+          - name: LOG
+            value: "ocid1.log.oc1.eu-amsterdam-1.amaaaaaauevftmqafwnledrp24iogeyccseh7dsgloo2euuvk4om7jpc4pvq"
         restartPolicy: OnFailure
         imagePullSecrets:
         - name: amsocirsecret
