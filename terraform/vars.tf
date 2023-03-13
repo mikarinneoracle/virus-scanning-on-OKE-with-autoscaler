@@ -7,13 +7,13 @@ variable "region" {
 variable "compartment_id" {
   type    = string
   ### Replace with your Compartment OCID
-  default = "ocid1.fnfunc.oc1.eu-amsterdam-1.aaaaaaaah6ix3r7fmz76sz2g2wghqvcm2tkc5jmynqwubsxfwkfxfigihyoa"
+  default = "ocid1.compartment.oc1..aaaaaaaawccfklp2wj4c5ymigrkjfdhcbcm3u5ripl2whnznhmvgiqdatqgq"
 }
 
 variable "function_id" {
   type    = string
   ### Replace with your Scanning function OCID
-  default = "ocid1.fnfunc.oc1.eu-amsterdam-1.aaaaaaaa4v4znguopj4vmr37pku6up7i6znbvkz7vqxctly7ampcx7wsk5oq"
+  default = "ocid1.fnfunc.oc1.eu-amsterdam-1.aaaaaaaah6ix3r7fmz76sz2g2wghqvcm2tkc5jmynqwubsxfwkfxfigihyoa"
 }
 
 variable "event_condition" {
