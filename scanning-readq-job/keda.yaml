@@ -10,15 +10,15 @@ spec:
           name: pool2
         containers:
         - name: scanning-readq-job
-          image: ams.ocir.io/frsxwtjslf35/scanning-readq-job:2.9
+          image: ams.ocir.io/frsxwtjslf35/scanning-readq-job:3.0
           imagePullPolicy: Always
           resources:
             requests:
               cpu: "500m"
           env:
-          - name: queue-ocid
+          - name: QUEUE
             value: "ocid1.queue.oc1.eu-amsterdam-1.amaaaaaauevftmqa4er5filmkshxfpad2leyurhw7t7ilg4txundaly6g7ba"
-          - name: queue-endpoint
+          - name: ENDPOINT
             value: "https://cell-1.queue.messaging.eu-amsterdam-1.oci.oraclecloud.com"
         restartPolicy: OnFailure
         imagePullSecrets:

@@ -6,8 +6,8 @@ const loggingingestion = require("oci-loggingingestion");
 const { exec } = require("child_process");
 const util = require('util');
 
-const queueId = process.env.queue-ocid;
-const endpoint = process.env.queue-endpoint;
+const queueId = process.env.QUEUE;
+const endpoint = process.env.ENDPOINT;
 var provider;
 var qClient;
 var oClient;
