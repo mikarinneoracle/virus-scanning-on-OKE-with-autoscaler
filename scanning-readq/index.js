@@ -7,8 +7,8 @@ const queue = require("oci-queue");
 const core = require("oci-core");
 const common = require("oci-common");
 
-const queueId = process.env.queue-ocid;
-const endpoint = process.env.queue-endpoint;
+const queueId = process.env.QUEUE;
+const endpoint = process.env.ENDPOINT;
 var provider;
 var qClient;
 
