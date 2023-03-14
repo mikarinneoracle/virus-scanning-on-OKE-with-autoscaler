@@ -8,11 +8,9 @@ RUN chmod +x install.sh && ./install.sh --accept-all-defaults
 
 RUN /root/bin/oci -v
 
-COPY ["package.json", "package-lock.json*", "./"]
+COPY . .
 
 RUN npm install
-
-COPY . .
 
 RUN tar -xvf cls-l64-703-e.tar.gz
 
