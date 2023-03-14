@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: scanning-readq
-          image: ams.ocir.io/frsxwtjslf35/scanning-readq:5.2
+          image: ams.ocir.io/frsxwtjslf35/scanning-readq:5.3
           imagePullPolicy: Always
           ports:
           - containerPort: 3000
