@@ -12,13 +12,13 @@ git clone https://github.com/mikarinneoracle/virus-scanning-on-OKE-with-autoscal
 
 ### Create Dynamic Groups for Policies
 
-- For the function:
+- For the function (<i>resource principal</i>):
 
 <pre>
 ALL {resource.type = 'fnfunc', resource.compartment.id = 'ocid1.compartment.oc1..'}
 </pre>
 
-- For OKE and other:
+- For OKE and other (<i>instance principal</i>):
 
 <pre>
 ANY {instance.compartment.id = 'ocid1.compartment.oc1..'}
@@ -38,9 +38,11 @@ Allow dynamic-group &lt;YOUR OTHER DYNAMIC GROUP&gt; to manage all-resources in 
 
 ### Create OCIR for Function
 
-- In Cloud UI create Container registry <code>scanning-writeq</code> for the Function created in the next step
+- In Cloud UI create Container registry <code>scanning-writeq</code> for the function created in the next step
 
-### Create Function
+### Create Function for Object Storage emitted Events
+
+This function <code>scanning-writeq</code> will ingest the events emitted by the object storage bucket <code>scanning-ms</code> when file(s) are uploaded to the bucket and then the function will write the file to OCI Queue <code>scanning</code> for OKE Jobs to process with virus scan.
 
 - In Cloud UI create Application <code>scanning</code>
 
@@ -64,5 +66,7 @@ func.yaml created.
 fn -v deploy --app scanning
 </pre>
 This will create and push the OCIR image and deploy the Function <code>scanning-writeq</code> to the application <code>scanning</code>
+
+## Create resources Resource Manager (Terraform)
 
 
