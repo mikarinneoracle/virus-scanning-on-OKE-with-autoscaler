@@ -101,6 +101,17 @@ This will create 3 Object Storage buckets, an Event rule and an OCI Queue for th
 
 - Add configuration key <code>QUEUE</code> with value of the OCID of the <code>scanning-ms</code> queue and key <code>ENDPOINT</code> with value of the <code>endpoint</code> of the <code>scanning-ms</code> queue
 
+## Application images for OKE
+
+### Download vmscan software
+
+### Build images and push to OCIR
+
+### Deploy images
+
+## OKE Autoscaler
+
+
 
 
 
