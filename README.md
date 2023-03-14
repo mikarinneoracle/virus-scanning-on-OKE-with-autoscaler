@@ -77,7 +77,7 @@ This will create and push the OCIR image and deploy the Function <code>scanning-
 
 - Add a second Node Pool <code>pool2</code> with <code>pool size 0</code> with defaults for the rest of the settings
 
-- Create cluster access from <code>localhost</code> to the OKE cluster. Click the <code>Access Cluster</code> button for details for the <code>Local Access</code> option
+- Create cluster access from <code>localhost</code> to the OKE cluster. Click the <code>Access Cluster</code> button for details for the <code>Local Access</code> option. This requires <code>oci cli</code> installed in <code>localhost</code>
 
 ## Other resources
 
@@ -107,7 +107,7 @@ This will create 3 Object Storage buckets, an Event rule and an OCI Queue for th
 
 - Download <code>uvscan</code> Command Line Scanner for Linux-64bit free trial from https://www.trellix.com/en-us/downloads/trials.html?selectedTab=endpointprotection
 
-- Download uvscan <code>datafile</code> with wget
+- Download uvscan <code>datafile</code> with wget e.g.
 
 <pre>
 wget https://update.nai.com/products/commonupdater/current/vscandat1000/dat/0000/avvdat-10637.zip
@@ -117,12 +117,34 @@ Copy the downloaded files under <code>scanning-readq-job</code> directory in <co
 
 <pre>
 cd scanning-readq-job
-ls
+ls -la
+..
 avvdat-10637.zip
 cls-l64-703-e.tar.gz
+..
 </pre>
 
+Note that the actual file names can be different from the ones above.
+
+### Create OCIR for images
+
+In Cloud UI create Container registries <code>scanning-readq</code> and <code>scanning-readq-job</code>
+
 ### Build images and push to OCIR
+
+In localhost build the application images using Docker and push to OCIR:
+
+<pre>
+cd scanning-readq
+docker build -t &lt;REGION KEY&gt;.ocir.io/&lt;YOUR TENANCY NAMESPACE&gt;/scanning-readq:1.0
+docker push &lt;REGION KEY&gt;.ocir.io/&lt;YOUR TENANCY NAMESPACE&gt;/scanning-readq:1.0
+</pre>
+
+<pre>
+cd scanning-readq-job
+docker build -t &lt;REGION KEY&gt;.ocir.io/&lt;YOUR TENANCY NAMESPACE&gt;/scanning-readq-job:1.0
+docker push &lt;REGION KEY&gt;.ocir.io/&lt;YOUR TENANCY NAMESPACE&gt;/scanning-readq-job:1.0
+</pre>
 
 ### Deploy images with kubectl
 
