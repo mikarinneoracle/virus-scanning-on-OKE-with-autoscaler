@@ -12,7 +12,7 @@ git clone https://github.com/mikarinneoracle/virus-scanning-on-OKE-with-autoscal
 
 ### Create Dynamic Groups for Policies
 
-- For the function (<i>resource principal</i>):
+- In Cloud UI create for the function (<i>resource principal</i>):
 
 <pre>
 ALL {resource.type = 'fnfunc', resource.compartment.id = 'ocid1.compartment.oc1..'}
@@ -27,7 +27,7 @@ ANY {instance.compartment.id = 'ocid1.compartment.oc1..'}
 
 ### Create Policies
 
-- For example:
+- In Cloud UI create for example:
 
 <pre>
 Allow dynamic-group &lt;YOUR FUNCTION DYNAMIC GROUP&gt; to manage all-resources in compartment &lt;YOUR COMPARTMENT&gt;
@@ -46,7 +46,7 @@ This function <code>scanning-writeq</code> will ingest the events emitted by the
 
 - In Cloud UI create Application <code>scanning</code>
 
-<b>In Cloud Shell and Code Editor</b>:
+- In Cloud Shell and Code Editor:
     
 - Follow the instructions in the Cloud UI  "Getting started" for the application <code>scanning</code>
 
