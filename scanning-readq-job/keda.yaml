@@ -10,7 +10,7 @@ spec:
           name: pool2
         containers:
         - name: scanning-readq-job
-          image: ams.ocir.io/frsxwtjslf35/scanning-readq-job:3.2
+          image: &lt;REGION KEY&gt;.ocir.io/&lt;YOUR TENANCY NAMESPACE&gt;:1.0
           imagePullPolicy: Always
           resources:
             requests:
@@ -24,19 +24,17 @@ spec:
             value: "ocid1.log.oc1.eu-amsterdam-1.amaaaaaauevftmqafwnledrp24iogeyccseh7dsgloo2euuvk4om7jpc4pvq"
         restartPolicy: OnFailure
         imagePullSecrets:
-        - name: amsocirsecret
+        - name: ocirsecret
     backoffLimit: 0  
   pollingInterval: 5              # Optional. Default: 30 seconds
   maxReplicaCount: 3              # Optional. Default: 100
   successfulJobsHistoryLimit: 3   # Optional. Default: 100. How many completed jobs should be kept.
   failedJobsHistoryLimit: 2       # Optional. Default: 100. How many failed jobs should be kept.
   scalingStrategy:
-    strategy: "default"                        # Optional. Default: default. Which Scaling Strategy to use.
-    #customScalingQueueLengthDeduction: 0      # Optional. A parameter to optimize custom ScalingStrategy.
-    #customScalingRunningJobPercentage: "0.5"  # Optional. A parameter to optimize custom ScalingStrategy.
+    strategy: "default"
   triggers:
     - type: metrics-api
       metadata:
         targetValue: "1"
-        url: "http://141.144.194.85:3000/stats"
+        url: "http://&lt;SERVICE EXTERNAL-IP&gt;:3000/stats"
         valueLocation: 'queueStats.queue.visibleMessages'
