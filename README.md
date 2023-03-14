@@ -107,7 +107,7 @@ This will create 3 Object Storage buckets, an Event rule and an OCI Queue for th
 
 ### Build images and push to OCIR
 
-### Deploy images
+### Deploy images with kubectl
 
 ## OKE Autoscaler
 
