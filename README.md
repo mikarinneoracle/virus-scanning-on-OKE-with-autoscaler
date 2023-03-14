@@ -44,11 +44,11 @@ Allow dynamic-group &lt;YOUR OTHER DYNAMIC GROUP&gt; to manage all-resources in 
 
 This function <code>scanning-writeq</code> will ingest the events emitted by the object storage bucket <code>scanning-ms</code> when file(s) are uploaded to the bucket and then the function will write the file to OCI Queue <code>scanning</code> for OKE jobs to process with virus scanning.
 
-- In Cloud UI create Application <code>scanning</code>
+- In Cloud UI create Application <code>scanning-ms</code>
 
 - In Cloud Shell and Code Editor:
     
-- Follow the instructions in the Cloud UI  "Getting started" for the application <code>scanning</code>
+- Follow the instructions in the Cloud UI  "Getting started" for the application <code>scanning-ms</code>
 
 - Run:
 
@@ -63,7 +63,7 @@ func.yaml created.
 
 - Run:
 <pre>
-fn -v deploy --app scanning
+fn -v deploy --app scanning-ms
 </pre>
 This will create and push the OCIR image and deploy the Function <code>scanning-writeq</code> to the application <code>scanning</code>
 
