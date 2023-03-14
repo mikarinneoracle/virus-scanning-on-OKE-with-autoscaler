@@ -42,7 +42,7 @@ Allow dynamic-group &lt;YOUR OTHER DYNAMIC GROUP&gt; to manage all-resources in 
 
 ### Create Function for Object Storage emitted Events
 
-This function <code>scanning-writeq</code> will ingest the events emitted by the object storage bucket <code>scanning-ms</code> when file(s) are uploaded to the bucket and then the function will write the file to OCI Queue <code>scanning</code> for OKE Jobs to process with virus scan.
+This function <code>scanning-writeq</code> will ingest the events emitted by the object storage bucket <code>scanning-ms</code> when file(s) are uploaded to the bucket and then the function will write the file to OCI Queue <code>scanning</code> for OKE jobs to process with virus scanning.
 
 - In Cloud UI create Application <code>scanning</code>
 
