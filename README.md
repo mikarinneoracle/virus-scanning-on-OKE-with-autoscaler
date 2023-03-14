@@ -77,7 +77,7 @@ This will create and push the OCIR image and deploy the Function <code>scanning-
 
 - Create cluster access from <code>localhost</code> to the OKE cluster. Click the <code>Access Cluster</code> button for details for the <code>Local Access</code> option.
 
-## Create other resources
+## Create other resources with Terraform
 
 - In Cloud UI create Resource Manager Stack
 
@@ -87,11 +87,14 @@ This will create and push the OCIR image and deploy the Function <code>scanning-
 
 - In the Configure variables (Step 2 for the Stack creation) fill in the <code>compartment_id</code> of your compartment OCID, <code>function_id</code> of your <code>scanning-writeq</code> function OCID and replace the <code>OCID</code> of the <code>event_condition</code> with your compartment OCID.
 
-
-
-
+- Click continue and create the Stack. Create the resources by clicking <code>Apply</code> button.
 
 This will create 3 Object Storage buckets, an Event rule and an OCI Queue for the virus scanning to operate on OKE.
+
+## Configure function
+
+
+
 
 
 
