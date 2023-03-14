@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: scanning-readq
-          image: &lt;REGION KEY&gt;.ocir.io/&lt;YOUR TENANCY NAMESPACE&gt;:1.0
+          image: REGION-KEY.ocir.io/TENANCY-NAMESPACE/scanning-readq:1.0
           imagePullPolicy: Always
           ports:
           - containerPort: 3000

@@ -10,7 +10,7 @@ spec:
           name: pool2
         containers:
         - name: scanning-readq-job
-          image: &lt;REGION KEY&gt;.ocir.io/&lt;YOUR TENANCY NAMESPACE&gt;:1.0
+          image: REGION-KEY.ocir.io/TENANCY-NAMESPACE/scanning-readq-job:1.0
           imagePullPolicy: Always
           resources:
             requests:
@@ -24,7 +24,7 @@ spec:
             value: "ocid1.log.oc1.eu-amsterdam-1.amaaaaaauevftmqafwnledrp24iogeyccseh7dsgloo2euuvk4om7jpc4pvq"
         restartPolicy: OnFailure
         imagePullSecrets:
-        - name: ocirsecret
+        - name: amsocirsecret
     backoffLimit: 0  
   pollingInterval: 5              # Optional. Default: 30 seconds
   maxReplicaCount: 3              # Optional. Default: 100
@@ -36,5 +36,5 @@ spec:
     - type: metrics-api
       metadata:
         targetValue: "1"
-        url: "http://&lt;SERVICE EXTERNAL-IP&gt;:3000/stats"
+        url: "http://SERVICE-EXTERNAL-IP:3000/stats"
         valueLocation: 'queueStats.queue.visibleMessages'
