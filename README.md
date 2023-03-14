@@ -67,6 +67,18 @@ fn -v deploy --app scanning-ms
 </pre>
 This will create and push the OCIR image and deploy the Function <code>scanning-writeq</code> to the application <code>scanning</code>
 
-## Create resources Resource Manager (Terraform)
+## Create OKE Cluster
+
+- In Cloud UI create OKE cluster using the "Quick create" option
+
+- Use default settings for the cluster creation
+
+- Add a second Node Pool <code>pool2</code> with <code>pool size 0</code> with defaults for the rest of the settings
+
+- Create cluster access from <code>localhost</code> to the OKE cluster. Click the <code>Access Cluster</code> button for details for the <code>Local Access</code> option.
+
+## Create other resources
+
+### In Cloud UI Create Resource Manager  
 
 
