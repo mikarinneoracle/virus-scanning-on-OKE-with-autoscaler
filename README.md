@@ -103,7 +103,24 @@ This will create 3 Object Storage buckets, an Event rule and an OCI Queue for th
 
 ## Application images for OKE
 
-### Download vmscan software
+### Download uvcan software
+
+- Download <code>uvscan</code> Command Line Scanner for Linux-64bit free trial from https://www.trellix.com/en-us/downloads/trials.html?selectedTab=endpointprotection
+
+- Download uvscan <code>datafile</code> with wget
+
+<pre>
+wget https://update.nai.com/products/commonupdater/current/vscandat1000/dat/0000/avvdat-10637.zip
+</pre>
+
+Copy the downloaded files under <code>scanning-readq-job</code> directory in <code>localhost</code>
+
+<pre>
+cd scanning-readq-job
+ls
+avvdat-10637.zip
+cls-l64-703-e.tar.gz
+</pre>
 
 ### Build images and push to OCIR
 
