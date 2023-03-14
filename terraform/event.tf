@@ -1,5 +1,5 @@
 resource "oci_events_rule" "scan_rule" {
-  display_name   = "Scanning"
+  display_name   = var.scanning_rule_display_name
   condition      = var.event_condition
   compartment_id = var.compartment_id
   is_enabled     = true

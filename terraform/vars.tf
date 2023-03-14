@@ -19,6 +19,32 @@ variable "event_condition" {
   default     = "{\"eventType\":[\"com.oraclecloud.objectstorage.updateobject\",\"com.oraclecloud.objectstorage.createobject\"],\"data\":{\"compartmentId\":[\"OCID\"],\"additionalDetails\":{\"bucketName\":[\"scanning-ms\"]}}}"
 }
 
+variable "scanning_rule_display_name" {
+  type    = string
+  default = "scanning"
+}
+
+variable "scanning_queue_display_name" {
+  type    = string
+  default = "scanning"
+}
+
+variable "scanning_bucket_name" {
+  type    = string
+  default = "scanning-ms"
+  description = "NOTE: If you change this you need to also change this for the event_condition bucketName above."
+}
+
+variable "scanned_bucket_name" {
+  type    = string
+  default = "scanned-ms"
+}
+
+variable "scanned_alert_bucket_name" {
+  type    = string
+  default = "scanning-alert-ms"
+}
+
 variable "tags" {
   type    = string
   default = "created by Terraform"
