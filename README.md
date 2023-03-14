@@ -93,6 +93,10 @@ This will create 3 Object Storage buckets, an Event rule and an OCI Queue for th
 
 ## Configure function
 
+- In Cloud UI add <code>scanning-writeq</code> function configuration
+
+- Add configuration key <code>QUEUE</code> with value of the OCID of the <code>scanning-ms</code> queue and key <code>ENDPOINT</code> with value of the <code>endpoint</code> of the <code>scanning-ms</code> queue.
+
 
 
 
