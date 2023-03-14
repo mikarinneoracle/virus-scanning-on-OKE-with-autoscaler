@@ -36,7 +36,7 @@ Allow dynamic-group &lt;YOUR OTHER DYNAMIC GROUP&gt; to manage all-resources in 
 
 ## Function
 
-### Create OCIR for Function
+### Create OCIR for the function
 
 - In Cloud UI create Container registry <code>scanning-writeq</code> for the function created in the next step
 
@@ -67,7 +67,9 @@ fn -v deploy --app scanning-ms
 </pre>
 This will create and push the OCIR image and deploy the Function <code>scanning-writeq</code> to the application <code>scanning</code>
 
-## Create OKE Cluster
+## OKE Cluster
+
+### Create OKE with 2 node pools
 
 - In Cloud UI create OKE cluster using the "Quick create" option
 
@@ -75,7 +77,9 @@ This will create and push the OCIR image and deploy the Function <code>scanning-
 
 - Add a second Node Pool <code>pool2</code> with <code>pool size 0</code> with defaults for the rest of the settings
 
-- Create cluster access from <code>localhost</code> to the OKE cluster. Click the <code>Access Cluster</code> button for details for the <code>Local Access</code> option.
+- Create cluster access from <code>localhost</code> to the OKE cluster. Click the <code>Access Cluster</code> button for details for the <code>Local Access</code> option
+
+## Other resources
 
 ## Create other resources with Terraform
 
@@ -89,13 +93,13 @@ This will create and push the OCIR image and deploy the Function <code>scanning-
 
 - Click continue and create the Stack. Create the resources by clicking <code>Apply</code> button.
 
-This will create 3 Object Storage buckets, an Event rule and an OCI Queue for the virus scanning to operate on OKE.
+This will create 3 Object Storage buckets, an Event rule and an OCI Queue for the virus scanning to operate on OKE
 
 ## Configure function
 
 - In Cloud UI add <code>scanning-writeq</code> function configuration
 
-- Add configuration key <code>QUEUE</code> with value of the OCID of the <code>scanning-ms</code> queue and key <code>ENDPOINT</code> with value of the <code>endpoint</code> of the <code>scanning-ms</code> queue.
+- Add configuration key <code>QUEUE</code> with value of the OCID of the <code>scanning-ms</code> queue and key <code>ENDPOINT</code> with value of the <code>endpoint</code> of the <code>scanning-ms</code> queue
 
 
 
