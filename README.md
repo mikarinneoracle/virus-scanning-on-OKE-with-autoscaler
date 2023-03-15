@@ -107,6 +107,8 @@ preferred the shape can be adjusted to use a larger shape to process the virus s
 
 - In the Configure variables (Step 2 for the Stack creation) fill in the <code>compartment_id</code> of your compartment OCID, <code>function_id</code> of your <code>scanning-writeq</code> function OCID and replace the <code>OCID</code> of the <code>event_condition</code> with your compartment OCID
 
+<img src="images/stack-config.png" width="800" />
+
 - Click continue and create the Stack. Create the resources by clicking <code>Apply</code> button
 
 This will create <b>three Object Storage buckets</b>, an <b>Event rule</b>, a <b>Log Group</b> and a <b>Log</b> and an <b>OCI Queue</b> for the virus scanning to operate on OKE
