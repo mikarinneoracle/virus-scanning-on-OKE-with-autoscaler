@@ -530,6 +530,13 @@ scanning-readq-job-scaler-n2fs6-pn2ns   0/1     ContainerCreating   0          3
 scanning-readq-job-scaler-n2fs6-pn2ns   1/1     Running             0          5m11s
 </pre>
 
+While the job is running the Q will move the message to <code>inFlight</code>:
+
+<pre>
+curl http://&lt;EXTERNAL-IP&gt;:3000/stats
+{"queueStats":{"queue":{"visibleMessages":0,<b>"inFlightMessages":1</b>,"sizeInBytes":9},"dlq":{"visibleMessages":0,"inFlightMessages":0,"sizeInBytes":0}},"opcRequestId":"0A1F2850C31F-11ED-AE89-FFC729A3C/41F3E07FC383D9E2F4EE58E4996FC179/D8097243379228D86AC64378A6701FEA"}
+</pre>
+
 After job has run for the virus scanning the job will remain in <code>completed</code> state:
 
 <pre>
@@ -539,7 +546,9 @@ scanning-readq-58d6bdd64c-9bbsq         1/1     Running     1          24h
 scanning-readq-job-scaler-n2fs6-pn2ns   0/1     Completed   0          6m1s
 </pre>
 
-To see the log for the job:
+Also the Q goes back to it's original state with zero messages since it was processed.
+
+To see the log for the job run:
 
 <pre>
 kubectl logs scanning-readq-job-scaler-n2fs6-pn2ns
