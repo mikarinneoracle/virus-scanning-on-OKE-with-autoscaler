@@ -140,15 +140,16 @@ docker build -t &lt;REGION KEY&gt;.ocir.io/&lt;YOUR TENANCY NAMESPACE&gt;/scanni
 docker push &lt;REGION KEY&gt;.ocir.io/&lt;YOUR TENANCY NAMESPACE&gt;/scanning-readq:1.0
 </pre>
 
+For the <code>scanning-readq-job</code> modify the file names in <code>Dockerfile</code> for 
+uvscan and it's data file to match the filenames that were downloaded earlier in 
+<a href="scanning-readq-job/Dockerfile#L15">line 15</a> and <a href="scanning-readq-job/Dockerfile#L19">lines 19-21</a>
+before building.
+
 <pre>
 cd scanning-readq-job
 docker build -t &lt;REGION KEY&gt;.ocir.io/&lt;YOUR TENANCY NAMESPACE&gt;/scanning-readq-job:1.0
 docker push &lt;REGION KEY&gt;.ocir.io/&lt;YOUR TENANCY NAMESPACE&gt;/scanning-readq-job:1.0
 </pre>
-
-For the <code>scanning-readq-job</code> modify the file names in <code>Dockerfile</code> for 
-uvscan and it's data file to match the filenames that were downloaded earlier in 
-<a href="scanning-readq-job/Dockerfile#L15">line 15</a> and <a href="scanning-readq-job/Dockerfile#L15">lines 19-21</a>
 
 ### Create OCIR secret for OKE
 
