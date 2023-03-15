@@ -97,7 +97,7 @@ preferred the shape can be adjusted for a larger shape to process the virus scan
 
 ## Other resources
 
-## Create the other resources with Terraform
+### Create the other resources with Terraform
 
 - In Cloud UI create Resource Manager Stack
 
@@ -112,6 +112,8 @@ preferred the shape can be adjusted for a larger shape to process the virus scan
 This will create 3 Object Storage buckets, an Event rule, a Log Group and a Log and an OCI Queue for the virus scanning to operate on OKE
 
 ## Configure function
+
+### Configure the function to write object upload events to the queue
 
 - In Cloud UI add <code>scanning-writeq</code> function configuration
 
