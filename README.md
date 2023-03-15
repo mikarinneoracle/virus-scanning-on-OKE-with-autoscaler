@@ -1,6 +1,6 @@
 # Virus scanning on OKE (Kubernetes) with object storage Events, KEDA Job scaler and OKE autoscaler
 
-<img src="OKE-scanning.png" width="800" />
+<img src="images/OKE-scanning.png" width="800" />
 
 ## Clone the repo to localhost
 
@@ -104,7 +104,7 @@ This will create 3 Object Storage buckets, an Event rule, a Log Group and a Log 
 
 - Add configuration key <code>QUEUE</code> with value of the OCID of the <code>scanning-ms</code> queue and key <code>ENDPOINT</code> with the <code>endpoint</code> value of the <code>scanning-ms</code> queue
 
-<img src="function-config.png" width="800" />
+<img src="images/function-config.png" width="800" />
 
 ## Application images for OKE
 
@@ -220,7 +220,7 @@ kubectl create -f scanning-readq/scanning-readq-svc.yaml
 Modify the OKE security list <code>oke-<b>svclbseclist</b>-quick-cluster1-xxxxxxxxxx</code> by adding ingress
 rule for the port 3000 to enable traffic to the service:
 
-<img src="svclb-ingress-rule-port-3000.png" width="800" />
+<img src="images/svclb-ingress-rule-port-3000.png" width="800" />
 
 After adding the security rule to get the <code>EXTERNAL-IP</code> of the service run:
 
@@ -514,7 +514,7 @@ scanning-readq-job-scaler-n2fs6-pn2ns   0/1     Pending   0          0s
 
 Wait for a while for the node in <code>pool2</code> to become available
 
-<img src="pool2-autoscaling.png" width="800" />
+<img src="images/pool2-autoscaling.png" width="800" />
 
 Once the node is available the job will run:
 
@@ -559,11 +559,11 @@ The uploaded test <code>files.zip</code> file was moved from the <code>scanning-
 
 In the Cloud UI see the log for the function application <code>scanning-ms</code>:
 
-<img src="events-logs.png" width="800" />
+<img src="images/events-logs.png" width="800" />
 
 In the Cloud UI see the custom log <code>scanning</code> for the <code>scanning-readq-job</code> job(s):
 
-<img src="jobs-logs.png" width="800" />
+<img src="images/jobs-logs.png" width="800" />
 
 
 
