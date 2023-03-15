@@ -7,7 +7,7 @@ uses KEDA to schedule virus scan jobs and OKE autoscaler to scale Nodes in the p
 The virus scanning uses Trellix free trial uvscan for demonstration.
 
 Multiple files (scanning is configured to scan single files and zip files) can be uploaded to 
-the created object storage bucket and then scanning jobs are fired (max 3 simultaneously that can be 
+the created object storage bucket and then scanning jobs are fired on OKE (max 3 simultaneously that can be 
 easily changed by modifying the KEDA configuration) using OCI Events and OCI Queue. The application code
 is mostly in NodeJS and uses OCI SDK for JS. After scanning files are moved to another buckets depending
 on the scanning result (clean or infected).
