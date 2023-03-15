@@ -215,8 +215,9 @@ rule for the port 3000 to enable traffic to the service:
 
 <img src="svclb-ingress-rule-port-3000.png" width="800" />
 
+To deploy <code>scanning-readq-job</code> first deploy the <a href="https://keda.sh/docs/2.9/deploy/"><b>KEDA operator</b></a>
+with Helm to your OKE cluster. 
 
-<code>scanning-readq-job</code>
 
 ## OKE Autoscaler
 
