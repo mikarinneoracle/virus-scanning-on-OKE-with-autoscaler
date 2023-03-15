@@ -136,8 +136,8 @@ In localhost build the application images using Docker and push to OCIR:
 
 <pre>
 cd scanning-readq
-docker build -t &lt;REGION KEY&gt;.ocir.io/&lt;YOUR TENANCY NAMESPACE&gt;/scanning-readq:1.0
-docker push &lt;REGION KEY&gt;.ocir.io/&lt;YOUR TENANCY NAMESPACE&gt;/scanning-readq:1.0
+docker build -t &lt;REGION-CODE&gt;.ocir.io/&lt;YOUR TENANCY NAMESPACE&gt;/scanning-readq:1.0
+docker push &lt;REGION-CODE&gt;.ocir.io/&lt;YOUR TENANCY NAMESPACE&gt;/scanning-readq:1.0
 </pre>
 
 For the <code>scanning-readq-job</code> modify the file names in <code>Dockerfile</code> for 
@@ -147,8 +147,8 @@ before building.
 
 <pre>
 cd scanning-readq-job
-docker build -t &lt;REGION KEY&gt;.ocir.io/&lt;YOUR TENANCY NAMESPACE&gt;/scanning-readq-job:1.0
-docker push &lt;REGION KEY&gt;.ocir.io/&lt;YOUR TENANCY NAMESPACE&gt;/scanning-readq-job:1.0
+docker build -t &lt;REGION-CODE&gt;.ocir.io/&lt;YOUR TENANCY NAMESPACE&gt;/scanning-readq-job:1.0
+docker push &lt;REGION-CODE&gt;.ocir.io/&lt;YOUR TENANCY NAMESPACE&gt;/scanning-readq-job:1.0
 </pre>
 
 ### Create OCIR secret for OKE
@@ -156,8 +156,10 @@ docker push &lt;REGION KEY&gt;.ocir.io/&lt;YOUR TENANCY NAMESPACE&gt;/scanning-r
 Create secret <code>ocirsecret</code> for the OKE cluster to be able to pull the application images from OCIR:
 
 <pre>
-kubectl create secret docker-registry ocirsecret --docker-username '&lt;YOUR TENANCY NAMESPACE&gt;/oracleidentitycloudservice/&lt;YOUR USERNAME&gt;'  --docker-password '&lt;YOUR ACCESS TOKEN&gt;'  --docker-server '&lt;REGION KEY&gt;.ocir.io'
+kubectl create secret docker-registry ocirsecret --docker-username '&lt;YOUR TENANCY NAMESPACE&gt;/oracleidentitycloudservice/&lt;YOUR USERNAME&gt;'  --docker-password '&lt;YOUR ACCESS TOKEN&gt;'  --docker-server '&lt;REGION-CODE&gt;.ocir.io'
 </pre>
+
+<a href="https://enabling-cloud.github.io/oci-learning/manual/DeployCustomDockerImageIntoOKECluster.html">More in OCI-learning</a>
 
 ### Deploy images with kubectl
 
