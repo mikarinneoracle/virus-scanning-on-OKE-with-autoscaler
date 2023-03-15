@@ -213,10 +213,70 @@ kubectl create -f scanning-readq/scanning-readq-svc.yaml
 Modify the OKE security list <code>oke-<b>svclbseclist</b>-quick-cluster1-xxxxxxxxxx</code> by adding ingress
 rule for the port 3000 to enable traffic to the service:
 
+To get <code>EXTERNAL-IP</code> of the service run:
+
+<pre>
+kubectl get services
+NAME                TYPE           CLUSTER-IP    <b>EXTERNAL-IP</b>      PORT(S)             AGE
+scanning-readq-lb   LoadBalancer   10.96.84.40   <b>141.144.194.85</b>   3000:30777/TCP      6d23h
+</pre>
+
+Access the url <code>http://<b>EXTERNAL-IP</b>:3000</code> from your browser to test the access to it.
+
 <img src="svclb-ingress-rule-port-3000.png" width="800" />
 
 To deploy <code>scanning-readq-job</code> first deploy the <a href="https://keda.sh/docs/2.9/deploy/"><b>KEDA operator</b></a>
-with Helm to your OKE cluster. 
+with Helm to your OKE cluster
+
+To deploy <code>scanning-readq-job</code> image modify the  <a href="scanning-readq-job/keda.yaml"><code>scanning-readq-job/keda.yaml</code></a> in <code>localhost</code> to match your values (in <b>bold</b>):
+
+<pre>
+apiVersion: keda.sh/v1alpha1
+kind: ScaledJob
+metadata:
+  name: scanning-readq-job-scaler
+spec:
+  jobTargetRef:
+    template:
+      spec:
+        nodeSelector:
+          name: pool2
+        containers:
+        - name: scanning-readq-job
+          image: <b>REGION-KEY</b>.ocir.io/<b>TENANCY-NAMESPACE</b>/scanning-readq-job:1.0
+          imagePullPolicy: Always
+          resources:
+            requests:
+              cpu: "500m"
+          env:
+          - name: QUEUE
+            value: "<b>ocid1.queue.oc1..</b>"
+          - name: ENDPOINT
+            value: "<b>https://cell-1.queue.messaging..oci.oraclecloud.com</b>"
+          - name: LOG
+            value: "<b>ocid1.log.oc1..</b>"
+        restartPolicy: OnFailure
+        imagePullSecrets:
+        - name: amsocirsecret
+    backoffLimit: 0  
+  pollingInterval: 5              # Optional. Default: 30 seconds
+  maxReplicaCount: 3              # Optional. Default: 100
+  successfulJobsHistoryLimit: 3   # Optional. Default: 100. How many completed jobs should be kept.
+  failedJobsHistoryLimit: 2       # Optional. Default: 100. How many failed jobs should be kept.
+  scalingStrategy:
+    strategy: "default"
+  triggers:
+    - type: metrics-api
+      metadata:
+        targetValue: "1"
+        url: "http://SERVICE-EXTERNAL-IP:3000/stats"
+        valueLocation: 'queueStats.queue.visibleMessages'
+</pre>
+
+Then run:
+<pre>
+kubectl create -f scanning-readq-job/keda.yaml
+</pre>
 
 
 ## OKE Autoscaler
