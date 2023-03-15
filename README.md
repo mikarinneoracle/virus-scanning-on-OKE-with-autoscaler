@@ -79,7 +79,7 @@ func.yaml created.
 <pre>
 fn -v deploy --app scanning-ms
 </pre>
-This will create and push the OCIR image and deploy the Function <code>scanning-writeq</code> to the application <code>scanning</code>
+This will create and push the OCIR image and deploy the Function <code>scanning-writeq</code> to the application <code>scanning-ms</code>
 
 
 ## OKE Cluster
