@@ -512,7 +512,8 @@ scanning-readq-58d6bdd64c-9bbsq   1/1     Running   1          24h
 scanning-readq-job-scaler-n2fs6-pn2ns   0/1     Pending   0          0s
 </pre>
 
-Wait for a while for the node in <code>pool2</code> to become available
+Wait for a while for the node in <code>pool2</code> to become available as provisioned by the OKE cluster autoscaler
+for the jobs to run on:
 
 <img src="images/pool2-autoscaling.png" width="800" />
 
