@@ -153,7 +153,11 @@ docker push &lt;REGION KEY&gt;.ocir.io/&lt;YOUR TENANCY NAMESPACE&gt;/scanning-r
 
 ### Create OCIR secret for OKE
 
-Create 
+Create secret <code>ocirsecret</code> for the OKE cluster to be able to pull the application images from OCIR:
+
+<pre>
+kubectl create secret docker-registry ocirsecret --docker-username '&lt;YOUR TENANCY NAMESPACE&gt;/oracleidentitycloudservice/&lt;YOUR USERNAME&gt;'  --docker-password '&lt;YOUR ACCESS TOKEN&gt;'  --docker-server '&lt;REGION KEY&gt;.ocir.io'
+</pre>
 
 ### Deploy images with kubectl
 
