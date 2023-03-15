@@ -222,7 +222,7 @@ rule for the port 3000 to enable traffic to the service:
 
 <img src="svclb-ingress-rule-port-3000.png" width="800" />
 
-After adding the securoty rule to get the <code>EXTERNAL-IP</code> of the service run:
+After adding the security rule to get the <code>EXTERNAL-IP</code> of the service run:
 
 <pre>
 kubectl get services
