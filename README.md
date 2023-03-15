@@ -60,7 +60,7 @@ This function <code>scanning-writeq</code> will ingest the events emitted by the
 
 - In Cloud UI enable also logging for the <code>scanning-ms</code> application
 
-- In Cloud Shell and Code Editor:
+- In Cloud Shell:
     
 - Follow the instructions in the Cloud UI  "Getting started" for the application <code>scanning-ms</code>
 
@@ -73,12 +73,14 @@ Function boilerplate generated.
 func.yaml created.
 </pre>
 
-- Copy/paste <code>func.js</code> and <code>package.json</code> from localhost <code>virus-scanning-on-OKE-with-autoscaler/scanning-writeq/</code>
+- In Code Editor navigate to <code>scanning-writeq</code> directory and copy/paste <code>func.js</code> and <code>package.json</code> file contents from localhost <code>virus-scanning-on-OKE-with-autoscaler/scanning-writeq/</code>
 
-- Run:
+- Then in Cloud Shell run:
 <pre>
+cd scanning-writeq
 fn -v deploy --app scanning-ms
 </pre>
+
 This will create and push the OCIR image and deploy the Function <code>scanning-writeq</code> to the application <code>scanning-ms</code>
 
 
