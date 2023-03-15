@@ -88,10 +88,10 @@ This will create and push the OCIR image and deploy the Function <code>scanning-
 
 - In Cloud UI create OKE cluster using the "Quick create" option
 
-- Use default settings for the cluster creation
+- Use default settings for the cluster creation, except for the <code>node pool size</code> that can be <b>1</b>
 
 - Add a second Node Pool <code>pool2</code> with <code>pool size 0</code> with defaults for the rest of the settings. If
-preferred the shape can be adjusted for a larger shape to process the virus scans faster
+preferred the shape can be adjusted to use a larger shape to process the virus scans faster
 
 - Create cluster access from <code>localhost</code> to the OKE cluster. Click the <code>Access Cluster</code> button for details for the <code>Local Access</code> option. This requires <code>oci cli</code> installed in <code>localhost</code>
 
