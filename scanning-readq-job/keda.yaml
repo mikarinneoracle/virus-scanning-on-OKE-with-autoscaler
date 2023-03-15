@@ -10,18 +10,18 @@ spec:
           name: pool2
         containers:
         - name: scanning-readq-job
-          image: REGION-KEY.ocir.io/TENANCY-NAMESPACE/scanning-readq-job:1.0
+          image: REGION-CODE.ocir.io/TENANCY-NAMESPACE/scanning-readq-job:1.0
           imagePullPolicy: Always
           resources:
             requests:
               cpu: "500m"
           env:
           - name: QUEUE
-            value: "ocid1.queue.oc1.eu-amsterdam-1.amaaaaaauevftmqa4er5filmkshxfpad2leyurhw7t7ilg4txundaly6g7ba"
+            value: "ocid1.queue.oc1.."
           - name: ENDPOINT
-            value: "https://cell-1.queue.messaging.eu-amsterdam-1.oci.oraclecloud.com"
+            value: "https://cell-1.queue.messaging..oci.oraclecloud.com"
           - name: LOG
-            value: "ocid1.log.oc1.eu-amsterdam-1.amaaaaaauevftmqafwnledrp24iogeyccseh7dsgloo2euuvk4om7jpc4pvq"
+            value: "ocid1.log.oc1.."
         restartPolicy: OnFailure
         imagePullSecrets:
         - name: amsocirsecret

@@ -16,15 +16,15 @@ spec:
     spec:
       containers:
         - name: scanning-readq
-          image: REGION-KEY.ocir.io/TENANCY-NAMESPACE/scanning-readq:1.0
+          image: REGION-CODE.ocir.io/TENANCY-NAMESPACE/scanning-readq:1.0
           imagePullPolicy: Always
           ports:
           - containerPort: 3000
             name: readq-http
           env:
           - name: QUEUE
-            value: "ocid1.queue.oc1.eu-amsterdam-1.amaaaaaauevftmqa4er5filmkshxfpad2leyurhw7t7ilg4txundaly6g7ba"
+            value: "ocid1.queue.oc1.."
           - name: ENDPOINT
-            value: "https://cell-1.queue.messaging.eu-amsterdam-1.oci.oraclecloud.com"
+            value: "https://cell-1.queue.messaging..oci.oraclecloud.com"
       imagePullSecrets:
       - name: ocirsecret
