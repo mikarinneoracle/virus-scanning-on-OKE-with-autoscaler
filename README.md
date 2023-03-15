@@ -97,7 +97,7 @@ preferred the shape can be adjusted for a larger shape to process the virus scan
 
 ## Other resources
 
-## Create other resources with Terraform
+## Create the other resources with Terraform
 
 - In Cloud UI create Resource Manager Stack
 
