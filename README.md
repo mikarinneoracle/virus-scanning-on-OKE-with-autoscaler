@@ -109,7 +109,7 @@ preferred the shape can be adjusted for a larger shape to process the virus scan
 
 - Click continue and create the Stack. Create the resources by clicking <code>Apply</code> button
 
-This will create 3 Object Storage buckets, an Event rule, a Log Group and a Log and an OCI Queue for the virus scanning to operate on OKE
+This will create <b>three Object Storage buckets</b>, an <b>Event rule</b>, a <b>Log Group</b> and a <b>Log</b> and an <b>OCI Queue</b> for the virus scanning to operate on OKE
 
 ## Configure function
 
