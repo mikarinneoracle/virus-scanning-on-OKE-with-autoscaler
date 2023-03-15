@@ -552,7 +552,7 @@ In the Cloud UI see the log for the function application <code>scanning-ms</code
 
 <img src="events-logs.png" width="800" />
 
-In teh Cloud UI see the custom log <code>scanning</code> for the <code>scanning-readq-job</code> jobs:
+In the Cloud UI see the custom log <code>scanning</code> for the <code>scanning-readq-job</code> job(s):
 
 <img src="jobs-logs.png" width="800" />
 
