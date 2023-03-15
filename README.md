@@ -471,9 +471,9 @@ kubectl create -f scanning-readq-job/cluster-autoscaler.yaml
 
 ## Testing
 
-Upload a zip file using oci cli from <code>localhost</code>
+Upload a test .zip file using oci cli from <code>localhost</code>
 <pre>
-oci os object put --bucket-name scanning-ms --region eu-amsterdam-1 --file files.zip
+oci os object put --bucket-name scanning-ms --region &lt;YOUR REGION&gt; --file files.zip
 {
   "etag": "59dc11dc-62f3-4df4-886d-adf9c9c00dc4",
   "last-modified": "Wed, 15 Mar 2023 10:46:34 GMT",
