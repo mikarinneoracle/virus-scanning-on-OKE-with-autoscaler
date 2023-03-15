@@ -471,3 +471,69 @@ kubectl create -f scanning-readq-job/cluster-autoscaler.yaml
 
 ## Testing
 
+Upload a zip file using oci cli from <code>localhost</code>
+<pre>
+oci os object put --bucket-name scanning-ms --region eu-amsterdam-1 --file files.zip
+{
+  "etag": "59dc11dc-62f3-4df4-886d-adf9c9c00dc4",
+  "last-modified": "Wed, 15 Mar 2023 10:46:34 GMT",
+  "opc-content-md5": "5D53dhf9MeT+gS8qJzbOAw=="
+}
+</pre>
+
+Monitor the Q length using the <code>scanning-readq service</code>:
+<pre>
+curl http://<b>SERVICE-EXTERNAL-IP</b>:3000/stats
+{"queueStats":{"queue":{"visibleMessages":1,"inFlightMessages":0,"sizeInBytes":9},"dlq":{"visibleMessages":0,"inFlightMessages":0,"sizeInBytes":0}},"opcRequestId":"C8325390C31E-11ED-AE89-FFC729A3C/8E7D75FA1DBB51B12AD3274C9C7E0978/8AFB5A47BDC4B0CEC36B94979F2BC34B"}
+</pre>
+
+Q size will increase to 1:
+<pre>
+curl http://141.144.194.85:3000/stats
+{"queueStats":{"queue":{"<b>visibleMessages":1</b>,"inFlightMessages":0,"sizeInBytes":9},"dlq":{"visibleMessages":0,"inFlightMessages":0,"sizeInBytes":0}},"opcRequestId":"0A1F2850C31F-11ED-AE89-FFC729A3C/41F3E07FC383D9E2F4EE58E4996FC179/D8097243379228D86AC64378A6701FEA"}
+</pre>
+
+<code>scanning-readq-job</code> job will be scheduled:
+<pre>
+kubectl get pods --watch
+NAME                              READY   STATUS    RESTARTS   AGE
+scanning-readq-58d6bdd64c-9bbsq   1/1     Running   1          24h
+scanning-readq-job-scaler-n2fs6-pn2ns   0/1     Pending   0          0s
+</pre>
+Waiting for the node in <code>pool2</code> to become available.
+
+Once the node is available the job will run:
+<pre>
+kubectl get pods --watch
+NAME                              READY   STATUS    RESTARTS   AGE
+scanning-readq-58d6bdd64c-9bbsq   1/1     Running   1          24h
+scanning-readq-job-scaler-n2fs6-pn2ns   0/1     Pending   0          0s
+scanning-readq-job-scaler-n2fs6-pn2ns   0/1     Pending   0          0s
+scanning-readq-job-scaler-n2fs6-pn2ns   0/1     Pending   0          3m13s
+scanning-readq-job-scaler-n2fs6-pn2ns   0/1     ContainerCreating   0          3m13s
+scanning-readq-job-scaler-n2fs6-pn2ns   1/1     Running             0          5m11s
+</pre>
+
+After job has run for the virus scanning the job will remain in <code>completed</code> state:
+<pre>
+kubectl get pods        
+NAME                                    READY   STATUS      RESTARTS   AGE
+scanning-readq-58d6bdd64c-9bbsq         1/1     Running     1          24h
+scanning-readq-job-scaler-n2fs6-pn2ns   0/1     Completed   0          6m1s
+</pre>
+
+To see the log for the job:
+<pre>
+kubectl logs scanning-readq-job-scaler-n2fs6-pn2ns
+Job reading from Q ..
+Scanning files.zip
+################# Scanning found no infected files #########################
+Job reading from Q ..
+Q empty - finishing up 
+</pre>
+
+After a while the <code>pool2</code> will be scaled down to zero by the autoscaler if no further 
+scanning jobs are running.
+
+
+
