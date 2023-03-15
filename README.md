@@ -1,5 +1,17 @@
 ## Virus scanning on OKE (Kubernetes) with object storage Events, KEDA Job scaler and OKE autoscaler
 
+This repo can be used to create a virus scanning system on OKE (Oracle Kubernetes Engine) that
+uses KEDA to schedule virus scan jobs and OKE autoscaler to scale Nodes in the pool from zero to one
+(or max 5) for the scan jobs to run on and then back to zero after scan job(s) has been completed.
+
+The virus scanning uses Trellix free trial uvscan for demonstration.
+
+Multiple files (scanning is configured to scan single files and zip files) can be uploaded to 
+the created object storage bucket and then scanning jobs are fired (max 3 simultaneously that can be 
+easily changed by modifying the KEDA configuration) using OCI Events and OCI Queue. The application code
+is mostly in NodeJS and uses OCI SDK for JS. After scanning files are moved to another buckets depending
+on the scanning result (clean or infected).
+
 <img src="images/OKE-scanning.png" width="800" />
 
 ### Clone the repo to localhost
@@ -78,7 +90,8 @@ This will create and push the OCIR image and deploy the Function <code>scanning-
 
 - Use default settings for the cluster creation
 
-- Add a second Node Pool <code>pool2</code> with <code>pool size 0</code> with defaults for the rest of the settings
+- Add a second Node Pool <code>pool2</code> with <code>pool size 0</code> with defaults for the rest of the settings. If
+preferred the shape can be adjusted for a larger shape to process the virus scans faster
 
 - Create cluster access from <code>localhost</code> to the OKE cluster. Click the <code>Access Cluster</code> button for details for the <code>Local Access</code> option. This requires <code>oci cli</code> installed in <code>localhost</code>
 
