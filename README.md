@@ -227,7 +227,7 @@ After adding the security rule to get the <code>EXTERNAL-IP</code> of the servic
 <pre>
 kubectl get services
 NAME                TYPE           CLUSTER-IP    <b>EXTERNAL-IP</b>      PORT(S)             AGE
-scanning-readq-lb   LoadBalancer   10.96.84.40   <b>141.144.194.85</b>   3000:30777/TCP      6d23h
+scanning-readq-lb   LoadBalancer   10.96.84.40   <b>141.122.194.89</b>   3000:30777/TCP      6d23h
 </pre>
 
 Access the url of the <code>scanning-readq</code> service <code>http://<b>EXTERNAL-IP</b>:3000/stats</code> with curl 
