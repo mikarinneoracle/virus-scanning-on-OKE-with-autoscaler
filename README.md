@@ -1,8 +1,8 @@
-# Virus scanning on OKE (Kubernetes) with object storage Events, KEDA Job scaler and OKE autoscaler
+## Virus scanning on OKE (Kubernetes) with object storage Events, KEDA Job scaler and OKE autoscaler
 
 <img src="images/OKE-scanning.png" width="800" />
 
-## Clone the repo to localhost
+### Clone the repo to localhost
 
 <pre>
 git clone https://github.com/mikarinneoracle/virus-scanning-on-OKE-with-autoscaler.git
