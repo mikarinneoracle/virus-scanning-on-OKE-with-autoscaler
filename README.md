@@ -46,6 +46,8 @@ This function <code>scanning-writeq</code> will ingest the events emitted by the
 
 - In Cloud UI create Application <code>scanning-ms</code>
 
+- In Cloud UI enable also logging for the <code>scanning-ms</code> application
+
 - In Cloud Shell and Code Editor:
     
 - Follow the instructions in the Cloud UI  "Getting started" for the application <code>scanning-ms</code>
@@ -66,6 +68,7 @@ func.yaml created.
 fn -v deploy --app scanning-ms
 </pre>
 This will create and push the OCIR image and deploy the Function <code>scanning-writeq</code> to the application <code>scanning</code>
+
 
 ## OKE Cluster
 
@@ -471,7 +474,7 @@ kubectl create -f scanning-readq-job/cluster-autoscaler.yaml
 
 ## Testing
 
-Upload a test .zip file using oci cli from <code>localhost</code>
+Upload a test file <code>files.zip</code> using oci cli from <code>localhost</code>
 <pre>
 oci os object put --bucket-name scanning-ms --region &lt;YOUR REGION&gt; --file files.zip
 {
@@ -499,9 +502,13 @@ NAME                              READY   STATUS    RESTARTS   AGE
 scanning-readq-58d6bdd64c-9bbsq   1/1     Running   1          24h
 scanning-readq-job-scaler-n2fs6-pn2ns   0/1     Pending   0          0s
 </pre>
-Waiting for the node in <code>pool2</code> to become available.
+
+Wait for a while for the node in <code>pool2</code> to become available
+
+<img src="pool2-autoscaling.png" width="800" />
 
 Once the node is available the job will run:
+
 <pre>
 kubectl get pods --watch
 NAME                              READY   STATUS    RESTARTS   AGE
@@ -514,6 +521,7 @@ scanning-readq-job-scaler-n2fs6-pn2ns   1/1     Running             0          5
 </pre>
 
 After job has run for the virus scanning the job will remain in <code>completed</code> state:
+
 <pre>
 kubectl get pods        
 NAME                                    READY   STATUS      RESTARTS   AGE
@@ -522,6 +530,7 @@ scanning-readq-job-scaler-n2fs6-pn2ns   0/1     Completed   0          6m1s
 </pre>
 
 To see the log for the job:
+
 <pre>
 kubectl logs scanning-readq-job-scaler-n2fs6-pn2ns
 Job reading from Q ..
@@ -533,6 +542,20 @@ Q empty - finishing up
 
 After a while the <code>pool2</code> will be scaled down to zero by the autoscaler if no further 
 scanning jobs are running.
+
+The uploaded test <code>files.zip</code> file was moved from the <code>scanning-ms</code> bucket to
+<code>scanned-ms</code> bucket in the process (assuming the test file was not infected)
+
+### Investigate logs
+
+In the Cloud UI see the log for the function application <code>scanning-ms</code>:
+
+<img src="events-logs.png" width="800" />
+
+In teh Cloud UI see the custom log <code>scanning</code> for the <code>scanning-readq-job</code> jobs:
+
+<img src="jobs-logs.png" width="800" />
+
 
 
 
