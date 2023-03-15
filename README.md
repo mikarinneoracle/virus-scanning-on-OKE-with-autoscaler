@@ -69,7 +69,7 @@ Function boilerplate generated.
 func.yaml created.
 </pre>
 
-- In Cloud Code Editor (as part of the Cloud UI) navigate to <code>scanning-writeq</code> directory and copy/paste <code>func.js</code> and <code>package.json</code> file contents from localhost <code>virus-scanning-on-OKE-with-autoscaler/scanning-writeq/</code>
+- In Cloud Code Editor (as part of the Cloud UI) navigate to <code>scanning-writeq</code> directory and copy/paste <code>func.js</code> and <code>package.json</code> file contents from localhost <a href="scanning-writeq/"><code>scanning-writeq</code></a> directory
 
 - Then in Cloud Shell run:
 
