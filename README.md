@@ -504,7 +504,7 @@ curl http://&lt;EXTERNAL-IP&gt;:3000/stats
 {"queueStats":{"queue":{<b>"visibleMessages":1</b>,"inFlightMessages":0,"sizeInBytes":9},"dlq":{"visibleMessages":0,"inFlightMessages":0,"sizeInBytes":0}},"opcRequestId":"0A1F2850C31F-11ED-AE89-FFC729A3C/41F3E07FC383D9E2F4EE58E4996FC179/D8097243379228D86AC64378A6701FEA"}
 </pre>
 
-<code>scanning-readq-job</code> job will be scheduled:
+<code>scanning-readq-job</code> job are scheduled:
 <pre>
 kubectl get pods --watch
 NAME                              READY   STATUS    RESTARTS   AGE
