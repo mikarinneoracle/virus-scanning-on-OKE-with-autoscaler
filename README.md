@@ -89,11 +89,11 @@ This will create and push the OCIR image and deploy the Function <code>scanning-
 
 - Use default settings and click continue
 
-- In the Configure variables (Step 2 for the Stack creation) fill in the <code>compartment_id</code> of your compartment OCID, <code>function_id</code> of your <code>scanning-writeq</code> function OCID and replace the <code>OCID</code> of the <code>event_condition</code> with your compartment OCID.
+- In the Configure variables (Step 2 for the Stack creation) fill in the <code>compartment_id</code> of your compartment OCID, <code>function_id</code> of your <code>scanning-writeq</code> function OCID and replace the <code>OCID</code> of the <code>event_condition</code> with your compartment OCID
 
-- Click continue and create the Stack. Create the resources by clicking <code>Apply</code> button.
+- Click continue and create the Stack. Create the resources by clicking <code>Apply</code> button
 
-This will create 3 Object Storage buckets, an Event rule and an OCI Queue for the virus scanning to operate on OKE
+This will create 3 Object Storage buckets, an Event rule, a Log Group and a Log and an OCI Queue for the virus scanning to operate on OKE
 
 ## Configure function
 
@@ -269,7 +269,7 @@ spec:
     - type: metrics-api
       metadata:
         targetValue: "1"
-        url: "http://SERVICE-EXTERNAL-IP:3000/stats"
+        url: "http://<b>SERVICE-EXTERNAL-IP</b>:3000/stats"
         valueLocation: 'queueStats.queue.visibleMessages'
 </pre>
 
@@ -278,6 +278,7 @@ Then run:
 kubectl create -f scanning-readq-job/keda.yaml
 </pre>
 
+<i>Note</i>: Env variable <code>LOG</code> is the OCID of the <code>scanning log</code> created in the earlier step with Terraform using Resource Manager Stack. Copy it from the Cloud UI.
 
 ## OKE Autoscaler
 

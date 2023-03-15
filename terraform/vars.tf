@@ -45,6 +45,18 @@ variable "scanned_alert_bucket_name" {
   default = "scanning-alert-ms"
 }
 
+variable "scanning_log_display_name" {
+  type        = string
+  default     = "scanning"
+  description = "Log name for scanning-readq-job"
+}
+
+variable "scanning_log_group_display_name" {
+  type        = string
+  default     = "scanning"
+  description = "Log group name for scanning log"
+}
+
 variable "tags" {
   type    = string
   default = "created by Terraform"
