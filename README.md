@@ -483,14 +483,13 @@ oci os object put --bucket-name scanning-ms --region eu-amsterdam-1 --file files
 
 Monitor the Q length using the <code>scanning-readq service</code>:
 <pre>
-curl http://<b>SERVICE-EXTERNAL-IP</b>:3000/stats
-{"queueStats":{"queue":{"visibleMessages":1,"inFlightMessages":0,"sizeInBytes":9},"dlq":{"visibleMessages":0,"inFlightMessages":0,"sizeInBytes":0}},"opcRequestId":"C8325390C31E-11ED-AE89-FFC729A3C/8E7D75FA1DBB51B12AD3274C9C7E0978/8AFB5A47BDC4B0CEC36B94979F2BC34B"}
+{"queueStats":{"queue":{<b>"visibleMessages":0</b>,"inFlightMessages":0,"sizeInBytes":0},"dlq":{"visibleMessages":0,"inFlightMessages":0,"sizeInBytes":0}},"opcRequestId":"07857530C320-11ED-AE89-FFC729A3C/BCA92AC274B1CC09FB9C7A6975DC609B/7D9970C765A85603727C2E125DB0F9B0"}
 </pre>
 
 Q size will increase to 1:
 <pre>
 curl http://141.144.194.85:3000/stats
-{"queueStats":{"queue":{"<b>visibleMessages":1</b>,"inFlightMessages":0,"sizeInBytes":9},"dlq":{"visibleMessages":0,"inFlightMessages":0,"sizeInBytes":0}},"opcRequestId":"0A1F2850C31F-11ED-AE89-FFC729A3C/41F3E07FC383D9E2F4EE58E4996FC179/D8097243379228D86AC64378A6701FEA"}
+{"queueStats":{"queue":{<b>"visibleMessages":1</b>,"inFlightMessages":0,"sizeInBytes":9},"dlq":{"visibleMessages":0,"inFlightMessages":0,"sizeInBytes":0}},"opcRequestId":"0A1F2850C31F-11ED-AE89-FFC729A3C/41F3E07FC383D9E2F4EE58E4996FC179/D8097243379228D86AC64378A6701FEA"}
 </pre>
 
 <code>scanning-readq-job</code> job will be scheduled:
