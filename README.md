@@ -550,7 +550,7 @@ Q empty - finishing up
 </pre>
 
 After a while the <code>pool2</code> will be scaled down to zero by the autoscaler if no further 
-scanning jobs are running.
+scanning jobs are running
 
 The uploaded test <code>files.zip</code> file was moved from the <code>scanning-ms</code> bucket to
 <code>scanned-ms</code> bucket in the process (assuming the test file was not infected)
