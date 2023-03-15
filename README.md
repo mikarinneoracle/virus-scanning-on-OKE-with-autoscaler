@@ -555,6 +555,8 @@ scanning jobs are running.
 The uploaded test <code>files.zip</code> file was moved from the <code>scanning-ms</code> bucket to
 <code>scanned-ms</code> bucket in the process (assuming the test file was not infected)
 
+<b>You can also upload multiple files and see several jobs being scheduled and run simultaneously for scanning</b>
+
 ### Investigate logs
 
 In the Cloud UI see the log for the function application <code>scanning-ms</code>:
