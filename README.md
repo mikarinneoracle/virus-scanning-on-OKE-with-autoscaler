@@ -221,7 +221,7 @@ NAME                TYPE           CLUSTER-IP    <b>EXTERNAL-IP</b>      PORT(S)
 scanning-readq-lb   LoadBalancer   10.96.84.40   <b>141.144.194.85</b>   3000:30777/TCP      6d23h
 </pre>
 
-Access the url <code>http://<b>EXTERNAL-IP</b>:3000</code> from your browser to test the access to it.
+Access the url <code>http://<b>EXTERNAL-IP</b>:3000/stats</code> from your browser to test the access to it.
 
 <img src="svclb-ingress-rule-port-3000.png" width="800" />
 
