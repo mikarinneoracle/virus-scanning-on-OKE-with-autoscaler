@@ -161,7 +161,62 @@ kubectl create secret docker-registry ocirsecret --docker-username '&lt;YOUR TEN
 
 <a href="https://enabling-cloud.github.io/oci-learning/manual/DeployCustomDockerImageIntoOKECluster.html">More in OCI-learning</a>
 
-### Deploy images with kubectl
+### Deploy application images with kubectl
+
+To deploy <code>scanning-readq</code> image modify the  <a href="scanning-readq/scanning-readq.yaml"><code>scanning-readq/scanning-readq.yaml</code></a> in <code>localhost</code> to match your values (in <b>bold</b>):
+
+<pre>
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: scanning-readq
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: scanning-readq
+      name: scanning-readq
+  template:
+    metadata:
+      labels:
+        app: scanning-readq
+        name: scanning-readq
+    spec:
+      containers:
+        - name: scanning-readq
+          image: <b>REGION-KEY</b>.ocir.io/<b>TENANCY-NAMESPACE</b>/scanning-readq:1.0
+          imagePullPolicy: Always
+          ports:
+          - containerPort: 3000
+            name: readq-http
+          env:
+          - name: QUEUE
+            value: "<b>ocid1.queue.oc1..</b>"
+          - name: ENDPOINT
+            value: "<b>https://cell-1.queue.messaging..oci.oraclecloud.com</b>"
+      imagePullSecrets:
+      - name: ocirsecret
+</pre>
+
+Then run:
+<pre>
+kubectl create -f scanning-readq/scanning-readq.yaml
+</pre>
+
+To deploy matching <code>scanning-readq service</code> in port <code>3000</code> for the 
+<code>scanning-readq</code> run:
+
+<pre>
+kubectl create -f scanning-readq/scanning-readq-svc.yaml
+</pre>
+
+Modify the OKE security list <code>oke-<b>svclbseclist</b>-quick-cluster1-xxxxxxxxxx</code> by adding ingress
+rule for the port 3000 to enable traffic to the service:
+
+<img src="svclb-ingress-rule-port-3000.png" width="800" />
+
+
+<code>scanning-readq-job</code>
 
 ## OKE Autoscaler
 
