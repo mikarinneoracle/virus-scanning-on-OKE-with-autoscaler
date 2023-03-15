@@ -36,5 +36,5 @@ spec:
     - type: metrics-api
       metadata:
         targetValue: "1"
-        url: "http://SERVICE-EXTERNAL-IP:3000/stats"
+        url: "http://EXTERNAL-IP:3000/stats"
         valueLocation: 'queueStats.queue.visibleMessages'
