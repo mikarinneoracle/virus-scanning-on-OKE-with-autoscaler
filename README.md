@@ -304,7 +304,7 @@ Then run:
 kubectl create -f scanning-readq-job/keda.yaml
 </pre>
 
-<i>Note</i>: Env variable <code>QUEUE</code> is the OCID of the scanning queue created in the earlier step with Terraform using Resource Manager Stack. Copy it from the Cloud UI. Copy also the value for the env var <code>ENDPOINT</code> from the Queue settings using Cloud UI. Env variable <code>LOG</code> is the OCID of the <code>scanning log</code> created in the earlier step with Terraform using Resource Manager Stack. Copy it from the Cloud UI, too
+<i>Note</i>: Env variable <code>QUEUE</code> is the OCID of the scanning queue created in the earlier step with Terraform using Resource Manager Stack. Copy it from the Cloud UI. Copy also the value for the env var <code>ENDPOINT</code> from the Queue settings using Cloud UI. Env variable <code>LOG</code> is the OCID of the <code>scanning log</code> created in the earlier step with Terraform using Resource Manager Stack. Copy it from the Cloud UI, too. Configure also the <code>SERVICE-EXTERNAL-IP<code> as the <code>metrics-api</code> endpoint url
 
 ## OKE Autoscaler
 
