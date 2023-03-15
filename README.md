@@ -102,7 +102,9 @@ This will create 3 Object Storage buckets, an Event rule, a Log Group and a Log 
 
 - In Cloud UI add <code>scanning-writeq</code> function configuration
 
-- Add configuration key <code>QUEUE</code> with value of the OCID of the <code>scanning-ms</code> queue and key <code>ENDPOINT</code> with value of the <code>endpoint</code> of the <code>scanning-ms</code> queue
+- Add configuration key <code>QUEUE</code> with value of the OCID of the <code>scanning-ms</code> queue and key <code>ENDPOINT</code> with the <code>endpoint</code> value of the <code>scanning-ms</code> queue
+
+<img src="function-config.png" width="800" />
 
 ## Application images for OKE
 
@@ -201,7 +203,7 @@ spec:
       - name: ocirsecret
 </pre>
 
-<i>Note</i>: Env variable <code>QUEUE</code> is the OCID of the <code>scanning queue</code> created in the earlier step with Terraform using Resource Manager Stack. Copy it from the Cloud UI. Copy also the value for the env var <code>ENDPOINT</code> from the Queue settings using Cloud UI.
+<i>Note</i>: Env variable <code>QUEUE</code> is the OCID of the <code>scanning queue</code> created in the earlier step with Terraform using Resource Manager Stack. Copy it from the Cloud UI. Copy also the value for the env var <code>ENDPOINT</code> from the Queue settings using Cloud UI
 
 Then run:
 <pre>
@@ -218,7 +220,9 @@ kubectl create -f scanning-readq/scanning-readq-svc.yaml
 Modify the OKE security list <code>oke-<b>svclbseclist</b>-quick-cluster1-xxxxxxxxxx</code> by adding ingress
 rule for the port 3000 to enable traffic to the service:
 
-To get <code>EXTERNAL-IP</code> of the service run:
+<img src="svclb-ingress-rule-port-3000.png" width="800" />
+
+After adding the securoty rule to get the <code>EXTERNAL-IP</code> of the service run:
 
 <pre>
 kubectl get services
@@ -226,9 +230,13 @@ NAME                TYPE           CLUSTER-IP    <b>EXTERNAL-IP</b>      PORT(S)
 scanning-readq-lb   LoadBalancer   10.96.84.40   <b>141.144.194.85</b>   3000:30777/TCP      6d23h
 </pre>
 
-Access the url <code>http://<b>EXTERNAL-IP</b>:3000/stats</code> from your browser to test the access to it.
+Access the url of the <code>scanning-readq</code> service <code>http://<b>EXTERNAL-IP</b>:3000/stats</code> with curl 
+or from your browser to test the access to it:
 
-<img src="svclb-ingress-rule-port-3000.png" width="800" />
+<pre>
+curl http://&lt;EXTERNAL-IP&gt;:3000/stats
+{"queueStats":{"queue":{"visibleMessages":0,"inFlightMessages":0,"sizeInBytes":0},"dlq":{"visibleMessages":0,"inFlightMessages":0,"sizeInBytes":0}},"opcRequestId":"07857530C320-11ED-AE89-FFC729A3C/BCA92AC274B1CC09FB9C7A6975DC609B/7D9970C765A85603727C2E125DB0F9B0"}
+</pre>
 
 To deploy <code>scanning-readq-job</code> first deploy the <a href="https://keda.sh/docs/2.9/deploy/"><b>KEDA operator</b></a>
 with Helm to your OKE cluster
@@ -283,12 +291,12 @@ Then run:
 kubectl create -f scanning-readq-job/keda.yaml
 </pre>
 
-<i>Note</i>: Env variable <code>LOG</code> is the OCID of the <code>scanning log</code> created in the earlier step with Terraform using Resource Manager Stack. Copy it from the Cloud UI.
+<i>Note</i>: Env variable <code>LOG</code> is the OCID of the <code>scanning log</code> created in the earlier step with Terraform using Resource Manager Stack. Copy it from the Cloud UI
 
 ## OKE Autoscaler
 
-To autoscale the nodes in the OKE <code>pool2</code> from zero to one and <code>scanning-readq-job</code> jobs to run on the OKE autoscaler needs to be <a href="https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengusingclusterautoscaler.htm">installed</a>.
-"
+To autoscale the nodes in the OKE <code>pool2</code> from zero to one and <code>scanning-readq-job</code> jobs to run on the OKE autoscaler needs to be <a href="https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengusingclusterautoscaler.htm">installed</a>
+
 To do this edit the <code><a href="scanning-readq-job/cluster-autoscaler.yaml">scanning-readq-job/cluster-autoscaler.yaml</a></code> in <code>localhost</code> to match your values (in <b>bold</b>):
 
 <pre>
@@ -486,12 +494,13 @@ oci os object put --bucket-name scanning-ms --region &lt;YOUR REGION&gt; --file 
 
 Monitor the Q length using the <code>scanning-readq service</code>:
 <pre>
+curl http://&lt;EXTERNAL-IP&gt;:3000/stats
 {"queueStats":{"queue":{<b>"visibleMessages":0</b>,"inFlightMessages":0,"sizeInBytes":0},"dlq":{"visibleMessages":0,"inFlightMessages":0,"sizeInBytes":0}},"opcRequestId":"07857530C320-11ED-AE89-FFC729A3C/BCA92AC274B1CC09FB9C7A6975DC609B/7D9970C765A85603727C2E125DB0F9B0"}
 </pre>
 
 Q size will increase to 1:
 <pre>
-curl http://141.144.194.85:3000/stats
+curl http://&lt;EXTERNAL-IP&gt;:3000/stats
 {"queueStats":{"queue":{<b>"visibleMessages":1</b>,"inFlightMessages":0,"sizeInBytes":9},"dlq":{"visibleMessages":0,"inFlightMessages":0,"sizeInBytes":0}},"opcRequestId":"0A1F2850C31F-11ED-AE89-FFC729A3C/41F3E07FC383D9E2F4EE58E4996FC179/D8097243379228D86AC64378A6701FEA"}
 </pre>
 
