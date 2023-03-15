@@ -304,7 +304,7 @@ Then run:
 kubectl create -f scanning-readq-job/keda.yaml
 </pre>
 
-<i>Note</i>: Env variable <code>LOG</code> is the OCID of the <code>scanning log</code> created in the earlier step with Terraform using Resource Manager Stack. Copy it from the Cloud UI
+<i>Note</i>: Env variable QUEUE is the OCID of the scanning queue created in the earlier step with Terraform using Resource Manager Stack. Copy it from the Cloud UI. Copy also the value for the env var ENDPOINT from the Queue settings using Cloud UI. Env variable <code>LOG</code> is the OCID of the <code>scanning log</code> created in the earlier step with Terraform using Resource Manager Stack. Copy it from the Cloud UI, too
 
 ## OKE Autoscaler
 
