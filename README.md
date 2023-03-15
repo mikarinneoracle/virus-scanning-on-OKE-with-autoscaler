@@ -60,11 +60,7 @@ This function <code>scanning-writeq</code> will ingest the events emitted by the
 
 - In Cloud UI enable also logging for the <code>scanning-ms</code> application
 
-- In Cloud Shell (as part of the Cloud UI):
-    
-- Follow the instructions in the Cloud UI  "Getting started" for the application <code>scanning-ms</code>
-
-- Run:
+- In Cloud Shell (as part of the Cloud UI) follow the instructions of the  <b>"Getting started"</b> for the application <code>scanning-ms</code> and finally run:
 
 <pre>
 <b>fn init --runtime node scanning-writeq</b>
@@ -73,7 +69,7 @@ Function boilerplate generated.
 func.yaml created.
 </pre>
 
-- In Cloud UI Code Editor navigate to <code>scanning-writeq</code> directory and copy/paste <code>func.js</code> and <code>package.json</code> file contents from localhost <code>virus-scanning-on-OKE-with-autoscaler/scanning-writeq/</code>
+- In Cloud Code Editor (as part of the Cloud UI) navigate to <code>scanning-writeq</code> directory and copy/paste <code>func.js</code> and <code>package.json</code> file contents from localhost <code>virus-scanning-on-OKE-with-autoscaler/scanning-writeq/</code>
 
 - Then in Cloud Shell run:
 <pre>
