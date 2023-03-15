@@ -9,8 +9,8 @@ The virus scanning uses Trellix free trial uvscan for demonstration.
 Multiple files (scanning is configured to scan single files and zip files) can be uploaded to 
 the created object storage bucket and then scanning jobs are fired on OKE (max 3 simultaneously that can be 
 easily changed by modifying the KEDA configuration) using OCI Events and OCI Queue. The application code
-is mostly in NodeJS and uses OCI SDK for JS. After scanning files are moved to another buckets depending
-on the scanning result (clean or infected).
+is mostly in NodeJS and uses <a href="https://github.com/oracle/oci-typescript-sdk">OCI SDK for JS</a>.
+After scanning files are moved to another buckets depending on the scanning result (clean or infected).
 
 <img src="images/OKE-scanning.png" width="800" />
 
