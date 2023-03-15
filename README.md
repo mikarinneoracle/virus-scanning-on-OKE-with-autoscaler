@@ -198,6 +198,8 @@ spec:
       - name: ocirsecret
 </pre>
 
+<i>Note</i>: Env variable <code>QUEUE</code> is the OCID of the <code>scanning queue</code> created in the earlier step with Terraform using Resource Manager Stack. Copy it from the Cloud UI. Copy also the value for the env var <code>ENDPOINT</code> from the Queue settings using Cloud UI.
+
 Then run:
 <pre>
 kubectl create -f scanning-readq/scanning-readq.yaml
@@ -228,7 +230,7 @@ Access the url <code>http://<b>EXTERNAL-IP</b>:3000/stats</code> from your brows
 To deploy <code>scanning-readq-job</code> first deploy the <a href="https://keda.sh/docs/2.9/deploy/"><b>KEDA operator</b></a>
 with Helm to your OKE cluster
 
-To deploy <code>scanning-readq-job</code> image modify the  <a href="scanning-readq-job/keda.yaml"><code>scanning-readq-job/keda.yaml</code></a> in <code>localhost</code> to match your values (in <b>bold</b>):
+Then modify the  <a href="scanning-readq-job/keda.yaml"><code>scanning-readq-job/keda.yaml</code></a> in <code>localhost</code> to match your values (in <b>bold</b>):
 
 <pre>
 apiVersion: keda.sh/v1alpha1
@@ -282,11 +284,190 @@ kubectl create -f scanning-readq-job/keda.yaml
 
 ## OKE Autoscaler
 
+To autoscale the nodes in the OKE <code>pool2</code> from zero to one and <code>scanning-readq-job</code> jobs to run on the OKE autoscaler needs to be <a href="https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengusingclusterautoscaler.htm">installed</a>.
+"
+To do this edit the <code><a href="scanning-readq-job/cluster-autoscaler.yaml">scanning-readq-job/cluster-autoscaler.yaml</a></code> in <code>localhost</code> to match your values (in <b>bold</b>):
 
+<pre>
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  labels:
+    k8s-addon: cluster-autoscaler.addons.k8s.io
+    k8s-app: cluster-autoscaler
+  name: cluster-autoscaler
+  namespace: kube-system
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: cluster-autoscaler
+  labels:
+    k8s-addon: cluster-autoscaler.addons.k8s.io
+    k8s-app: cluster-autoscaler
+rules:
+  - apiGroups: [""]
+    resources: ["events", "endpoints"]
+    verbs: ["create", "patch"]
+  - apiGroups: [""]
+    resources: ["pods/eviction"]
+    verbs: ["create"]
+  - apiGroups: [""]
+    resources: ["pods/status"]
+    verbs: ["update"]
+  - apiGroups: [""]
+    resources: ["endpoints"]
+    resourceNames: ["cluster-autoscaler"]
+    verbs: ["get", "update"]
+  - apiGroups: [""]
+    resources: ["nodes"]
+    verbs: ["watch", "list", "get", "patch", "update"]
+  - apiGroups: [""]
+    resources:
+      - "pods"
+      - "services"
+      - "replicationcontrollers"
+      - "persistentvolumeclaims"
+      - "persistentvolumes"
+    verbs: ["watch", "list", "get"]
+  - apiGroups: ["extensions"]
+    resources: ["replicasets", "daemonsets"]
+    verbs: ["watch", "list", "get"]
+  - apiGroups: ["policy"]
+    resources: ["poddisruptionbudgets"]
+    verbs: ["watch", "list"]
+  - apiGroups: ["apps"]
+    resources: ["statefulsets", "replicasets", "daemonsets"]
+    verbs: ["watch", "list", "get"]
+  - apiGroups: ["storage.k8s.io"]
+    resources: ["storageclasses", "csinodes"]
+    verbs: ["watch", "list", "get"]
+  - apiGroups: ["batch", "extensions"]
+    resources: ["jobs"]
+    verbs: ["get", "list", "watch", "patch"]
+  - apiGroups: ["coordination.k8s.io"]
+    resources: ["leases"]
+    verbs: ["create"]
+  - apiGroups: ["coordination.k8s.io"]
+    resourceNames: ["cluster-autoscaler"]
+    resources: ["leases"]
+    verbs: ["get", "update"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: cluster-autoscaler
+  namespace: kube-system
+  labels:
+    k8s-addon: cluster-autoscaler.addons.k8s.io
+    k8s-app: cluster-autoscaler
+rules:
+  - apiGroups: [""]
+    resources: ["configmaps"]
+    verbs: ["create","list","watch"]
+  - apiGroups: [""]
+    resources: ["configmaps"]
+    resourceNames: ["cluster-autoscaler-status", "cluster-autoscaler-priority-expander"]
+    verbs: ["delete", "get", "update", "watch"]
 
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: cluster-autoscaler
+  labels:
+    k8s-addon: cluster-autoscaler.addons.k8s.io
+    k8s-app: cluster-autoscaler
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-autoscaler
+subjects:
+  - kind: ServiceAccount
+    name: cluster-autoscaler
+    namespace: kube-system
 
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: cluster-autoscaler
+  namespace: kube-system
+  labels:
+    k8s-addon: cluster-autoscaler.addons.k8s.io
+    k8s-app: cluster-autoscaler
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: cluster-autoscaler
+subjects:
+  - kind: ServiceAccount
+    name: cluster-autoscaler
+    namespace: kube-system
 
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cluster-autoscaler-2
+  namespace: kube-system
+  labels:
+    app: cluster-autoscaler
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cluster-autoscaler
+  template:
+    metadata:
+      labels:
+        app: cluster-autoscaler
+      annotations:
+        prometheus.io/scrape: 'true'
+        prometheus.io/port: '8085'
+    spec:
+      serviceAccountName: cluster-autoscaler
+      containers:
+        - image: fra.ocir.io/oracle/oci-cluster-autoscaler:<b>1.25.0-6</b>
+          name: cluster-autoscaler
+          resources:
+            limits:
+              cpu: 100m
+            requests:
+              cpu: 100m
+          command:
+            - ./cluster-autoscaler
+            - --v=4
+            - --stderrthreshold=info
+            - --cloud-provider=oci-oke
+            - --max-node-provision-time=25m
+            - --nodes=0:5:<b>ocid1.nodepool.oc1..</b>
+            - --scale-down-delay-after-add=10m
+            - --scale-down-unneeded-time=10m
+            - --unremovable-node-recheck-timeout=5m
+            - --balance-similar-node-groups
+            - --balancing-ignore-label=displayName
+            - --balancing-ignore-label=hostname
+            - --balancing-ignore-label=internal_addr
+            - --balancing-ignore-label=oci.oraclecloud.com/fault-domain
+          imagePullPolicy: "Always"
+          env:
+          - name: OKE_USE_INSTANCE_PRINCIPAL
+            value: "true"
+          - name: OCI_SDK_APPEND_USER_AGENT
+            value: "oci-oke-cluster-autoscaler"
+</pre>
 
+For the autoscaler proper <code>tag</code> please check the <a href="https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengusingclusterautoscaler.htm">autoscaler documentation</a>
 
+The node pool is the OCID of the OKE Cluster <code>pool2</code>
 
+To create the autoscaler run:
+
+<pre>
+kubectl create -f scanning-readq-job/cluster-autoscaler.yaml  
+</pre>
+
+## Testing
 
