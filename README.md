@@ -459,7 +459,7 @@ spec:
             value: "oci-oke-cluster-autoscaler"
 </pre>
 
-For the autoscaler proper <code>tag</code> please check the <a href="https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengusingclusterautoscaler.htm">autoscaler documentation</a>
+For the autoscaler proper <code>tag</code> in the YAML above please check the <a href="https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengusingclusterautoscaler.htm">autoscaler documentation</a>
 
 The node pool is the OCID of the OKE Cluster <code>pool2</code>
 
