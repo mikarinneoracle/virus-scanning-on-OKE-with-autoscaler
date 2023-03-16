@@ -286,7 +286,7 @@ spec:
             value: "<b>ocid1.log.oc1..</b>"
         restartPolicy: OnFailure
         imagePullSecrets:
-        - name: amsocirsecret
+        - name: ocirsecret
     backoffLimit: 0  
   pollingInterval: 5              # Optional. Default: 30 seconds
   maxReplicaCount: 3              # Optional. Default: 100
